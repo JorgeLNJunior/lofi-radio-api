@@ -1,8 +1,8 @@
 import jwt from 'jsonwebtoken';
 
-import { User } from '../entity/user.entity';
+import { Artist } from '../entity/artist.entity';
 
-export function sign(user: User): string {
+export function sign(user: Artist): string {
   const secret = process.env.APP_SECRET || 'xHBpZ5Kbac';
 
   return jwt.sign({ uuid: user.uuid }, secret, { expiresIn: '1d' });

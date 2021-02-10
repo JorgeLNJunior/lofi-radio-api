@@ -2,7 +2,7 @@ import { NextFunction, Request, Response } from 'express';
 import jwt from 'jsonwebtoken';
 import { getRepository } from 'typeorm';
 
-import { User } from '../entity/user.entity';
+import { Artist } from '../entity/artist.entity';
 
 export async function validateToken(
   req: Request,
@@ -25,7 +25,7 @@ export async function validateToken(
     const secret = process.env.APP_SECRET;
     const decoded = jwt.verify(token, secret as string);
 
-    const userRepository = getRepository(User);
+    const userRepository = getRepository(Artist);
     const user = await userRepository.findOne((decoded as AuthToken).uuid);
     req.user = user;
   } catch (error) {
