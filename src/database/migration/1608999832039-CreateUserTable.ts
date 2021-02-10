@@ -1,10 +1,10 @@
 import { MigrationInterface, QueryRunner, Table } from 'typeorm';
 
-export class CreateUserTable1608999832039 implements MigrationInterface {
+export class CreateArtistTable1608999832039 implements MigrationInterface {
   public async up(queryRunner: QueryRunner): Promise<void> {
     await queryRunner.createTable(
       new Table({
-        name: 'user',
+        name: 'artist',
         columns: [
           {
             name: 'uuid',
@@ -15,14 +15,28 @@ export class CreateUserTable1608999832039 implements MigrationInterface {
           {
             name: 'name',
             type: 'varchar',
+            isNullable: false,
+            isUnique: true,
           },
           {
-            name: 'email',
+            name: 'spotify_url',
             type: 'varchar',
+            isNullable: true,
           },
           {
-            name: 'password',
+            name: 'youtube_url',
             type: 'varchar',
+            isNullable: true,
+          },
+          {
+            name: 'soundcloud_url',
+            type: 'varchar',
+            isNullable: true,
+          },
+          {
+            name: 'photo_url',
+            type: 'varchar',
+            isNullable: true,
           },
           {
             name: 'created_at',
@@ -41,6 +55,6 @@ export class CreateUserTable1608999832039 implements MigrationInterface {
   }
 
   public async down(queryRunner: QueryRunner): Promise<void> {
-    await queryRunner.dropTable('user');
+    await queryRunner.dropTable('artist');
   }
 }

@@ -1,9 +1,9 @@
-import { User } from '../../app/entity/user.entity';
+import { Artist } from '../../app/entity/artist.entity';
 
 declare global {
   namespace Express {
     interface Request {
-      user: User | undefined;
+      user: Artist | undefined;
     }
   }
 }

@@ -1,17 +1,19 @@
 import { Router } from 'express';
+import multer from 'multer';
 
-import { AuthController } from './app/controller/auth.controller';
-import { UsersController } from './app/controller/users.controller';
-import { validateToken } from './app/middleware/auth.middleware';
+import { UsersController } from './app/controller/artists.controller';
 
 const router = Router();
-const usersController = new UsersController();
-const authController = new AuthController();
+const artistsController = new UsersController();
 
-router.post('/register', authController.register);
+router.get('/artists', artistsController.get);
 
-router.post('/login', authController.login);
+router.post('/artists', artistsController.create);
 
-router.get('/users', validateToken, usersController.get);
+router.post(
+  '/artists/:uuid/photo',
+  multer({ limits: { fieldSize: 2000000 } }).single('photo'),
+  artistsController.uploadPhoto,
+);
 
 export default router;
