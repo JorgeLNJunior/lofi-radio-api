@@ -16,6 +16,26 @@ export class UserFactory {
     return new UserFactory();
   }
 
+  withoutName(): UserFactory {
+    delete this.artist.name;
+    return this;
+  }
+
+  withInvalidSpotify(): UserFactory {
+    this.artist.spotifyUrl = 'invald-url';
+    return this;
+  }
+
+  withInvalidYoutube(): UserFactory {
+    this.artist.youtubeUrl = 'invald-url';
+    return this;
+  }
+
+  withInvalidSoundcloud(): UserFactory {
+    this.artist.soundcloudUrl = 'invald-url';
+    return this;
+  }
+
   async persist(): Promise<Artist> {
     const repository = getRepository(Artist);
     const artist = repository.create(this.artist);
