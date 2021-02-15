@@ -13,14 +13,14 @@ describe('Artists (e2e)', () => {
     await connection.runMigrations();
   });
 
-  test('/artists (GET) should return 200 and a list of artists', async () => {
+  test('/artists (GET) should return a list of artists', async () => {
     const { status, body } = await request(app).get('/artists/');
 
     expect(status).toBe(200);
     expect(body).toHaveProperty('artists');
   });
 
-  test('/artists (POST) should register a artist, return 201 and a artist property', async () => {
+  test('/artists (POST) should register a artist', async () => {
     const artist = ArtistFactory.aArtist().build();
 
     const { status, body } = await request(app).post('/artists').send(artist);
@@ -29,12 +29,12 @@ describe('Artists (e2e)', () => {
     expect(body).toHaveProperty('artist');
   });
 
-  test('/artists (POST) should update artist photo, return 200 and a artist photo property', async () => {
+  test('/artists (POST) should update artist photo', async () => {
     const { uuid } = await ArtistFactory.aArtist().persist();
 
     const { status, body } = await request(app)
       .post(`/artists/${uuid}/photo`)
-      .attach('photo', __dirname + '/images/1.jpg');
+      .attach('photo', __dirname + '/files/1.jpg');
 
     expect(status).toBe(200);
     expect(body).toHaveProperty('artist');
