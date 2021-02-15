@@ -3,7 +3,7 @@ import { getRepository } from 'typeorm';
 import { ArtistBody } from '../../@types/body';
 import { Artist } from '../entity/artist.entity';
 import { BadRequestError } from '../error/badRequest.error';
-import { ArtistStorageFactory } from '../storage/artist/artistFactory.storage';
+import { ArtistStorageFactory } from '../storage/factory/artistFactory.storage';
 
 export class ArtistsService {
   async get(): Promise<Artist[]> {

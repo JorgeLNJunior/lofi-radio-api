@@ -1,8 +1,9 @@
 import Joi from 'joi';
 
 import { ArtistBody } from '../../../@types/body';
+import { BaseValidator } from '../../../@types/validator';
 
-export class CreateArtistValidator {
+export class CreateArtistValidator implements BaseValidator {
   validate(body: ArtistBody): Joi.ValidationResult {
     const schema = Joi.object({
       name: Joi.string().required(),

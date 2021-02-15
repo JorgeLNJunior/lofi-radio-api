@@ -11,12 +11,12 @@ export class ArtistLocalStorage implements ArtistBaseStorage {
 
     return new Promise((resolve, reject) => {
       fs.writeFile(
-        path.resolve('public') + `/${name}`,
+        path.resolve('public') + `/artists/photo/${name}`,
         photo.buffer,
         (error) => {
           if (error)
             reject(new InternalError(['local upload error: ' + error.message]));
-          resolve('http://localhost:3000/' + name);
+          resolve('http://localhost:3000/artists/photo/' + name);
         },
       );
     });
