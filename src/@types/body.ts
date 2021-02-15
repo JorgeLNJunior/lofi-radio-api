@@ -1,6 +1,11 @@
 export type ArtistBody = {
-  name: string | undefined;
-  spotifyUrl: string | undefined;
-  youtubeUrl: string | undefined;
-  soundcloudUrl: string | undefined;
+  name?: string;
+  spotifyUrl?: string;
+  youtubeUrl?: string;
+  soundcloudUrl?: string;
+};
+
+export type SongBody = {
+  title?: string;
+  artistsUuids?: string[];
 };
