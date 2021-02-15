@@ -1,11 +1,11 @@
 import request from 'supertest';
 import { Connection, createConnection } from 'typeorm';
 
-import app from '../src/start/app';
-import { UserFactory } from './factory/artist.factory';
+import app from '../../src/start/app';
+import { ArtistFactory } from './factory/artist.factory';
 import { finishConnection } from './helpers/database.helper';
 
-describe('Users (e2e)', () => {
+describe('Artists (e2e)', () => {
   let connection: Connection;
 
   beforeAll(async () => {
@@ -13,15 +13,15 @@ describe('Users (e2e)', () => {
     await connection.runMigrations();
   });
 
-  test('/users (GET) should return 200 and a list of artists', async () => {
-    const { status, body } = await request(app).get('/artists');
+  test('/artists (GET) should return 200 and a list of artists', async () => {
+    const { status, body } = await request(app).get('/artists/');
 
     expect(status).toBe(200);
     expect(body).toHaveProperty('artists');
   });
 
-  test('/users (POST) should register a artist, return 201 and a artist property', async () => {
-    const artist = UserFactory.aArtist().build();
+  test('/artists (POST) should register a artist, return 201 and a artist property', async () => {
+    const artist = ArtistFactory.aArtist().build();
 
     const { status, body } = await request(app).post('/artists').send(artist);
 
@@ -29,8 +29,8 @@ describe('Users (e2e)', () => {
     expect(body).toHaveProperty('artist');
   });
 
-  test('/users (POST) should update artist photo, return 200 and a artist photo property', async () => {
-    const { uuid } = await UserFactory.aArtist().persist();
+  test('/artists (POST) should update artist photo, return 200 and a artist photo property', async () => {
+    const { uuid } = await ArtistFactory.aArtist().persist();
 
     const { status, body } = await request(app)
       .post(`/artists/${uuid}/photo`)
@@ -40,8 +40,8 @@ describe('Users (e2e)', () => {
     expect(body).toHaveProperty('artist');
   });
 
-  test('/users (POST) should not register a artist if name is undefined', async () => {
-    const artist = UserFactory.aArtist().withoutName().build();
+  test('/artists (POST) should not register a artist if name is undefined', async () => {
+    const artist = ArtistFactory.aArtist().withoutName().build();
 
     const { status, body } = await request(app).post('/artists').send(artist);
 
@@ -49,8 +49,8 @@ describe('Users (e2e)', () => {
     expect(body).toHaveProperty('errors');
   });
 
-  test('/users (POST) should not register a artist with invalid spotify', async () => {
-    const artist = UserFactory.aArtist().withInvalidSpotify().build();
+  test('/artists (POST) should not register a artist with invalid spotify', async () => {
+    const artist = ArtistFactory.aArtist().withInvalidSpotify().build();
 
     const { status, body } = await request(app).post('/artists').send(artist);
 
@@ -58,8 +58,8 @@ describe('Users (e2e)', () => {
     expect(body).toHaveProperty('errors');
   });
 
-  test('/users (POST) should not register a artist with invalid youtube', async () => {
-    const artist = UserFactory.aArtist().withInvalidYoutube().build();
+  test('/artists (POST) should not register a artist with invalid youtube', async () => {
+    const artist = ArtistFactory.aArtist().withInvalidYoutube().build();
 
     const { status, body } = await request(app).post('/artists').send(artist);
 
@@ -67,8 +67,8 @@ describe('Users (e2e)', () => {
     expect(body).toHaveProperty('errors');
   });
 
-  test('/users (POST) should not register a artist with invalid soundcloud', async () => {
-    const artist = UserFactory.aArtist().withInvalidSoundcloud().build();
+  test('/artists (POST) should not register a artist with invalid soundcloud', async () => {
+    const artist = ArtistFactory.aArtist().withInvalidSoundcloud().build();
 
     const { status, body } = await request(app).post('/artists').send(artist);
 

@@ -1,10 +1,10 @@
 import Faker from 'faker';
 import { getRepository } from 'typeorm';
 
-import { ArtistBody } from '../../src/@types/body';
-import { Artist } from '../../src/app/entity/artist.entity';
+import { ArtistBody } from '../../../src/@types/body';
+import { Artist } from '../../../src/app/entity/artist.entity';
 
-export class UserFactory {
+export class ArtistFactory {
   private artist: ArtistBody = {
     name: Faker.name.findName(),
     spotifyUrl: `https://www.open.spotify.com/artist/${Faker.random.alphaNumeric()}`,
@@ -12,26 +12,26 @@ export class UserFactory {
     youtubeUrl: `https://www.youtube.com/channel/${Faker.random.alphaNumeric()}`,
   };
 
-  static aArtist(): UserFactory {
-    return new UserFactory();
+  static aArtist(): ArtistFactory {
+    return new ArtistFactory();
   }
 
-  withoutName(): UserFactory {
+  withoutName(): ArtistFactory {
     delete this.artist.name;
     return this;
   }
 
-  withInvalidSpotify(): UserFactory {
+  withInvalidSpotify(): ArtistFactory {
     this.artist.spotifyUrl = 'invald-url';
     return this;
   }
 
-  withInvalidYoutube(): UserFactory {
+  withInvalidYoutube(): ArtistFactory {
     this.artist.youtubeUrl = 'invald-url';
     return this;
   }
 
-  withInvalidSoundcloud(): UserFactory {
+  withInvalidSoundcloud(): ArtistFactory {
     this.artist.soundcloudUrl = 'invald-url';
     return this;
   }
