@@ -4,6 +4,9 @@ import { createHttpTerminator } from 'http-terminator';
 import { getConnection } from 'typeorm';
 
 import app from './app';
+import { AzureStarter } from './azure';
+
+const azureStarter = new AzureStarter();
 
 const port = parseInt(process.env.PORT as string) || 3000;
 
@@ -31,6 +34,8 @@ const server = app.listen(port, () => {
         ` "STORAGE" enviroment variable is undefined. Using local storage.`,
       );
     console.log(warnMsg);
+  } else if (process.env.STORAGE === 'azure') {
+    azureStarter.createContainerIfNotExist();
   }
 
   if (process.env.NODE_ENV === 'production') {
