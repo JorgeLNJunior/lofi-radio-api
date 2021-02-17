@@ -1,35 +1,38 @@
 import { MigrationInterface, QueryRunner, Table } from 'typeorm';
 
-export class CreateArtistSongsTable1613234486899 implements MigrationInterface {
+export class CreatePlaylistSongsTable1613584191555
+  implements MigrationInterface {
   public async up(queryRunner: QueryRunner): Promise<void> {
     await queryRunner.createTable(
       new Table({
-        name: 'artist_songs',
+        name: 'playlist_songs',
         foreignKeys: [
           {
-            columnNames: ['artist_uuid'],
+            columnNames: ['playlist_uuid'],
+            referencedTableName: 'playlist',
+            referencedColumnNames: ['uuid'],
             onDelete: 'CASCADE',
             onUpdate: 'CASCADE',
-            referencedTableName: 'artist',
-            referencedColumnNames: ['uuid'],
           },
           {
             columnNames: ['song_uuid'],
-            onDelete: 'CASCADE',
-            onUpdate: 'CASCADE',
             referencedTableName: 'song',
             referencedColumnNames: ['uuid'],
+            onDelete: 'CASCADE',
+            onUpdate: 'CASCADE',
           },
         ],
         columns: [
           {
-            name: 'artist_uuid',
+            name: 'playlist_uuid',
             type: 'varchar',
+            isNullable: false,
             length: '36',
           },
           {
             name: 'song_uuid',
             type: 'varchar',
+            isNullable: false,
             length: '36',
           },
         ],
@@ -39,6 +42,6 @@ export class CreateArtistSongsTable1613234486899 implements MigrationInterface {
   }
 
   public async down(queryRunner: QueryRunner): Promise<void> {
-    await queryRunner.dropTable('artist_songs');
+    await queryRunner.dropTable('playlist_songs');
   }
 }

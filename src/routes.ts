@@ -2,11 +2,13 @@ import { Router } from 'express';
 import multer from 'multer';
 
 import { UsersController } from './app/controller/artists.controller';
+import { PlaylistController } from './app/controller/playlist.controller';
 import { SongController } from './app/controller/song.controller';
 
 const router = Router();
 const artistsController = new UsersController();
 const songController = new SongController();
+const playlistsController = new PlaylistController();
 
 router.get('/artists/', artistsController.get);
 
@@ -30,5 +32,9 @@ router.post(
   ]),
   songController.upload,
 );
+
+router.get('/playlists/', playlistsController.find);
+
+router.post('/playlists', playlistsController.create);
 
 export default router;

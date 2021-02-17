@@ -9,3 +9,9 @@ export type SongBody = {
   title?: string;
   artistsUuids?: string[];
 };
+
+export type PlaylistBody = {
+  title?: string;
+  originalUrl?: string;
+  songsUuids?: string[];
+};
