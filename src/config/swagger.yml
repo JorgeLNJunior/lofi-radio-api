@@ -145,6 +145,41 @@ paths:
               schema:
                 $ref: "#/components/schemas/songs-register-response"
 
+  /playlists:
+    get:
+      tags:
+        - "Playlists"
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/playlists-response"
+
+    post:
+      tags:
+        - "Playlists"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref:  "#/components/schemas/playlist-register-body"
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/playlist-register-response"
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/bad-request-error"
+
 components:
   schemas:
     artists-response:
@@ -417,6 +452,174 @@ components:
         cover:
           type: string
           format: binary
+
+    playlists-response:
+      type: object
+      properties:
+        status:
+          type: integer
+          default: 200
+        playlists:
+          type: array
+          items:
+            type: object
+            properties:
+              uuid:
+                type: string
+                example: 062b0499-2eaa-4066-8739-10a0f953b8e7
+              title:
+                type: string
+                example: 1 am study session
+              originalUrl:
+                type: string
+                example: http://www.youtube.com/UC5E_qyrsVIkAmvVzGUae3OA
+              createdAt:
+                type: string
+                example: 2021-02-10T20:34:19.000Z
+              updatedAt:
+                type: string
+                example: 2021-02-10T20:34:19.000Z
+              songs:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    uuid:
+                      type: string
+                      example: 202e4853-0fba-449c-8529-6518a68eaa40
+                    title:
+                      type: string
+                      example: call me
+                    songUrl:
+                      type: string
+                      example: https://lofiradio.blob.core.windows.net/files/songs/audio/1613485744855.mp3
+                    coverUrl:
+                      type: string
+                      example: https://lofiradio.blob.core.windows.net/files/songs/covers/1613485748199.jpg
+                    createdAt:
+                      type: string
+                      example: 2021-02-10T20:34:19.000Z
+                    updatedAt:
+                      type: string
+                      example: 2021-02-10T20:34:19.000Z
+                    artists:
+                      type: array
+                      items:
+                        type: object
+                        properties:
+                          uuid:
+                            type: string
+                            example: 062b0499-2eaa-4066-8739-10a0f953b8e7
+                          name:
+                            type: string
+                            example: 90sFlav
+                          spotifyUrl:
+                            type: string
+                            example: https://open.spotify.com/artist/6OOxsmeDk34xk6Ok3Ap95C
+                          youtubeUrl:
+                            type: string
+                            example: https://www.youtube.com/channel/UC5E_qyrsVIkAmvVzGUae3OA
+                          soundcloudUrl:
+                            type: string
+                            example: https://soundcloud.com/90sflav
+                          photoUrl:
+                            type: string
+                            example: https://lofiradio.blob.core.windows.net/files/artists/photos/1613485748199.jpg
+                          createdAt:
+                            type: string
+                            example: 2021-02-10T20:34:19.000Z
+                          updatedAt:
+                            type: string
+                            example: 2021-02-10T20:34:19.000Z
+
+    playlist-register-body:
+      required:
+        - title
+        - songsUuids
+      type: object
+      properties:
+        title:
+          type: string
+          example: 1 am study session
+        originalUrl:
+          type: string
+          example: http://www.youtube.com/UC5E_qyrsVIkAmvVzGUae3OA
+        songsUuids:
+          type: array
+          items:
+            type: string
+            example: 062b0499-2eaa-4066-8739-10a0f953b8e7
+
+    playlist-register-response:
+      type: object
+      properties:
+        uuid:
+          type: string
+          example: 062b0499-2eaa-4066-8739-10a0f953b8e7
+        title:
+          type: string
+          example: 1 am study session
+        originalUrl:
+          type: string
+          example: http://www.youtube.com/UC5E_qyrsVIkAmvVzGUae3OA
+        createdAt:
+          type: string
+          example: 2021-02-10T20:34:19.000Z
+        updatedAt:
+          type: string
+          example: 2021-02-10T20:34:19.000Z
+        songs:
+          type: array
+          items:
+            type: object
+            properties:
+              uuid:
+                type: string
+                example: 202e4853-0fba-449c-8529-6518a68eaa40
+              title:
+                type: string
+                example: call me
+              songUrl:
+                type: string
+                example: https://lofiradio.blob.core.windows.net/files/songs/audio/1613485744855.mp3
+              coverUrl:
+                type: string
+                example: https://lofiradio.blob.core.windows.net/files/songs/covers/1613485748199.jpg
+              createdAt:
+                type: string
+                example: 2021-02-10T20:34:19.000Z
+              updatedAt:
+                type: string
+                example: 2021-02-10T20:34:19.000Z
+              artists:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    uuid:
+                      type: string
+                      example: 062b0499-2eaa-4066-8739-10a0f953b8e7
+                    name:
+                      type: string
+                      example: 90sFlav
+                    spotifyUrl:
+                      type: string
+                      example: https://open.spotify.com/artist/6OOxsmeDk34xk6Ok3Ap95C
+                    youtubeUrl:
+                      type: string
+                      example: https://www.youtube.com/channel/UC5E_qyrsVIkAmvVzGUae3OA
+                    soundcloudUrl:
+                      type: string
+                      example: https://soundcloud.com/90sflav
+                    photoUrl:
+                      type: string
+                      example: https://lofiradio.blob.core.windows.net/files/artists/photos/1613485748199.jpg
+                    createdAt:
+                      type: string
+                      example: 2021-02-10T20:34:19.000Z
+                    updatedAt:
+                      type: string
+                      example: 2021-02-10T20:34:19.000Z
 
     bad-request-error:
       type: object
