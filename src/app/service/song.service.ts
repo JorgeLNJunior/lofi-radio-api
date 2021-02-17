@@ -10,7 +10,7 @@ import { SongsStorageFactory } from '../storage/factory/songFactory.storage';
 export class SongService {
   async find(): Promise<Song[]> {
     const repository = getRepository(Song);
-    return repository.find({ relations: ['artists'] });
+    return repository.find({ relations: ['artists'], take: 20 });
   }
 
   async create(body: SongBody): Promise<Song | undefined> {
