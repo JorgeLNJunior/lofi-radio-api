@@ -10,7 +10,11 @@ import { SongsStorageFactory } from '../storage/factory/songFactory.storage';
 export class SongService {
   async find(): Promise<Song[]> {
     const repository = getRepository(Song);
-    return repository.find({ relations: ['artists'], take: 20 });
+    return repository.find({
+      relations: ['artists'],
+      take: 20,
+      where: { isHidden: false },
+    });
   }
 
   async create(body: SongBody): Promise<Song | undefined> {
@@ -53,7 +57,11 @@ export class SongService {
     const songUrl = await storage.storeSong(song);
     const coverUrl = await storage.storeCover(cover);
 
-    await repository.update(songUuid, { coverurl: coverUrl, songUrl: songUrl });
+    await repository.update(songUuid, {
+      coverurl: coverUrl,
+      songUrl: songUrl,
+      isHidden: false,
+    });
 
     return repository.findOne(songUuid);
   }

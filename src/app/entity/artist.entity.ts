@@ -41,6 +41,9 @@ export class Artist {
   })
   songs: Song[];
 
+  @Column({ name: 'is_hidden', default: true })
+  isHidden: boolean;
+
   @CreateDateColumn({ name: 'created_at' })
   createdAt: Date;
 

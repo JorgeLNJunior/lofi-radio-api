@@ -39,6 +39,11 @@ export class CreateArtistTable1608999832039 implements MigrationInterface {
             isNullable: true,
           },
           {
+            name: 'is_hidden',
+            type: 'boolean',
+            default: true,
+          },
+          {
             name: 'created_at',
             type: 'timestamp',
             default: 'CURRENT_TIMESTAMP',

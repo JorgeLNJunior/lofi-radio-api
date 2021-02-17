@@ -18,7 +18,8 @@ paths:
   /artists:
     get:
       summary: Retorna artistas
-      description: Returna uma lista com 20 artistas criados. Querys ainda não disponíveis
+      description: Returna uma lista com no máximo 20 artistas criados. Não retorna
+        artistas que não tiveram sua foto enviada. Querys ainda não disponíveis.
       tags:
         - "Artistas"
       responses:
@@ -57,7 +58,9 @@ paths:
   /artists/{uuid}/photo:
     post:
       summary: Upload de foto
-      description: Realiza o upload da foto do artista.
+      description: Realiza o upload da foto do artista. Após enviado o artista terá
+        a propriedade "isHidden" definida como "false", então poderá ser encontrado
+        na rota GET.
       tags:
         - "Artistas"
       parameters:
@@ -83,7 +86,9 @@ paths:
   /songs:
     get:
       summary: Retorna músicas
-      description: Returna uma lista com 20 músicas criadas. Querys ainda não disponíveis
+      description: Returna uma lista com 20 músicas criadas. Não retorna
+        músicas que não tiveram seu arquivo de aúdio e capa enviados.
+        Querys ainda não disponíveis.
       tags:
         - "Músicas"
       responses:
@@ -124,7 +129,9 @@ paths:
       tags:
         - "Músicas"
       summary: Upload dos arquivos da música
-      description: Realiza o upload do arquivo de aúdio e capa do album/música
+      description: Realiza o upload do arquivo de aúdio e capa do album/música.
+        Após enviada a música terá a propriedade "isHidden" definida como "false",
+        então poderá ser encontrada na rota GET.
       parameters:
         - name: uuid
           in: path
@@ -208,6 +215,9 @@ components:
               soundcloudUrl:
                 type: string
                 example: https://soundcloud.com/kudasaibeats
+              isHidden:
+                type: boolean
+                default: false
               createdAt:
                 type: string
                 example: 2021-02-10T20:34:19.000Z
@@ -242,6 +252,9 @@ components:
                 soundcloudUrl:
                   type: string
                   example: https://soundcloud.com/kudasaibeats
+                isHidden:
+                  type: boolean
+                  default: true
                 createdAt:
                   type: string
                   example: 2021-02-10T20:34:19.000Z
@@ -314,6 +327,9 @@ components:
                 photoUrl:
                   type: string
                   example: http://localhost:3000/1612990275474.png
+                isHidden:
+                  type: boolean
+                  default: false
                 createdAt:
                   type: string
                   example: 2021-02-10T20:34:19.000Z
@@ -344,6 +360,15 @@ components:
               coverUrl:
                 type: string
                 example: https://lofiradio.blob.core.windows.net/files/songs/covers/1613485748199.jpg
+              isHidden:
+                type: boolean
+                default: true
+              createdAt:
+                type: string
+                example: 2021-02-10T20:34:19.000Z
+              updatedAt:
+                type: string
+                example: 2021-02-10T20:34:19.000Z
               artists:
                 type: array
                 items:
@@ -410,6 +435,15 @@ components:
             coverUrl:
               type: string
               example: https://lofiradio.blob.core.windows.net/files/songs/covers/1613485748199.jpg
+            isHidden:
+              type: boolean
+              default: true
+            createdAt:
+              type: string
+              example: 2021-02-10T20:34:19.000Z
+            updatedAt:
+              type: string
+              example: 2021-02-10T20:34:19.000Z
             artists:
               type: array
               items:
@@ -650,9 +684,3 @@ components:
           items:
             type: string
             example: invalid credentials
-
-  securitySchemes:
-    bearerAuth:
-      type: http
-      scheme: bearer
-      bearerFormat: JWT

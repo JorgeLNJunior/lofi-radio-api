@@ -8,7 +8,7 @@ import { ArtistStorageFactory } from '../storage/factory/artistFactory.storage';
 export class ArtistsService {
   async get(): Promise<Artist[]> {
     const repository = getRepository(Artist);
-    return await repository.find({ take: 20 });
+    return await repository.find({ take: 20, where: { isHidden: false } });
   }
 
   async create(artist: ArtistBody): Promise<Artist> {
@@ -29,7 +29,7 @@ export class ArtistsService {
     let artist = await repository.findOne(uuid);
     if (!artist) throw new BadRequestError(['artist not found']);
 
-    await repository.update(uuid, { photoUrl: url });
+    await repository.update(uuid, { photoUrl: url, isHidden: false });
     artist = await repository.findOne(uuid);
     return artist as Artist;
   }

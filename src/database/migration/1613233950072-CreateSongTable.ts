@@ -29,6 +29,11 @@ export class CreateSongTable1613233950072 implements MigrationInterface {
             isNullable: true,
           },
           {
+            name: 'is_hidden',
+            type: 'boolean',
+            default: true,
+          },
+          {
             name: 'created_at',
             type: 'datetime',
             length: '6',
