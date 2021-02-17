@@ -12,15 +12,28 @@ info:
     url: https://github.com/JorgeLNJunior/lofi-radio-api/blob/master/LICENSE.md
 servers:
   - url: http://localhost:3000
-    description: local development server
+    description: servidor local - desenvolvimento
 
 paths:
   /artists:
+    get:
+      summary: Retorna artistas
+      description: Returna uma lista com 20 artistas criados. Querys ainda não disponíveis
+      tags:
+        - "Artistas"
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/artists-response"
+
     post:
       summary: Registra um novo artista
       description: Registra um novo artista e retorna seus dados.
       tags:
-        - "artists"
+        - "Artistas"
       requestBody:
         required: true
         content:
@@ -40,25 +53,13 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/bad-request-error"
-    get:
-      summary: Retorna artistas
-      description: Returna uma lista com 20 artistas criados. Querys ainda não disponíveis
-      tags:
-        - "artists"
-      responses:
-        "200":
-          description: OK
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/artists-response"
 
   /artists/{uuid}/photo:
     post:
       summary: Upload de foto
       description: Realiza o upload da foto do artista.
       tags:
-        - "artists"
+        - "Artistas"
       parameters:
         - name: uuid
           in: path
@@ -78,6 +79,71 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/artist-photo-upload-response"
+
+  /songs:
+    get:
+      summary: Retorna músicas
+      description: Returna uma lista com 20 músicas criadas. Querys ainda não disponíveis
+      tags:
+        - "Músicas"
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/songs-response"
+
+    post:
+      summary: Registra uma nova música
+      description: Registra uma nova música e retorna seus dados
+      tags:
+        - "Músicas"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/song-register-body"
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref:  "#/components/schemas/artist-register-response"
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/bad-request-error"
+
+  /songs/{uuid}/upload:
+    post:
+      tags:
+        - "Músicas"
+      summary: Upload dos arquivos da música
+      description: Realiza o upload do arquivo de aúdio e capa do album/música
+      parameters:
+        - name: uuid
+          in: path
+          required: true
+          schema:
+            type: string
+            example: 062b0499-2eaa-4066-8739-10a0f953b8e7
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              $ref: "#/components/schemas/song-upload-body"
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/songs-register-response"
 
 components:
   schemas:
@@ -123,7 +189,7 @@ components:
             status:
               type: number
               default: 200
-            user:
+            artist:
               type: object
               properties:
                 uuid:
@@ -192,7 +258,7 @@ components:
             status:
               type: number
               default: 200
-            user:
+            artist:
               type: object
               properties:
                 uuid:
@@ -220,6 +286,138 @@ components:
                   type: string
                   example: 2021-02-10T20:34:19.000Z
 
+    songs-response:
+      type: object
+      properties:
+        status:
+          type: number
+          default: 200
+        songs:
+          type: array
+          items:
+            type: object
+            properties:
+              uuid:
+                type: string
+                example: 202e4853-0fba-449c-8529-6518a68eaa40
+              title:
+                type: string
+                example: call me
+              songUrl:
+                type: string
+                example: https://lofiradio.blob.core.windows.net/files/songs/audio/1613485744855.mp3
+              coverUrl:
+                type: string
+                example: https://lofiradio.blob.core.windows.net/files/songs/covers/1613485748199.jpg
+              artists:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    uuid:
+                      type: string
+                      example: 062b0499-2eaa-4066-8739-10a0f953b8e7
+                    name:
+                      type: string
+                      example: 90sFlav
+                    spotifyUrl:
+                      type: string
+                      example: https://open.spotify.com/artist/6OOxsmeDk34xk6Ok3Ap95C
+                    youtubeUrl:
+                      type: string
+                      example: https://www.youtube.com/channel/UC5E_qyrsVIkAmvVzGUae3OA
+                    soundcloudUrl:
+                      type: string
+                      example: https://soundcloud.com/90sflav
+                    photoUrl:
+                      type: string
+                      example: https://lofiradio.blob.core.windows.net/files/artists/photos/1613485748199.jpg
+                    createdAt:
+                      type: string
+                      example: 2021-02-10T20:34:19.000Z
+                    updatedAt:
+                      type: string
+                      example: 2021-02-10T20:34:19.000Z
+
+    song-register-body:
+      required:
+        - title
+        - artistsUuids
+      type: object
+      properties:
+        title:
+          type: string
+          example: call me
+        artistsUuids:
+          type: array
+          items:
+            type: string
+            example: 062b0499-2eaa-4066-8739-10a0f953b8e7
+
+    songs-register-response:
+      type: object
+      properties:
+        status:
+          type: number
+          default: 200
+        song:
+          type: object
+          properties:
+            uuid:
+              type: string
+              example: 202e4853-0fba-449c-8529-6518a68eaa40
+            title:
+              type: string
+              example: call me
+            songUrl:
+              type: string
+              example: https://lofiradio.blob.core.windows.net/files/songs/audio/1613485744855.mp3
+            coverUrl:
+              type: string
+              example: https://lofiradio.blob.core.windows.net/files/songs/covers/1613485748199.jpg
+            artists:
+              type: array
+              items:
+                type: object
+                properties:
+                  uuid:
+                    type: string
+                    example: 062b0499-2eaa-4066-8739-10a0f953b8e7
+                  name:
+                    type: string
+                    example: 90sFlav
+                  spotifyUrl:
+                    type: string
+                    example: https://open.spotify.com/artist/6OOxsmeDk34xk6Ok3Ap95C
+                  youtubeUrl:
+                    type: string
+                    example: https://www.youtube.com/channel/UC5E_qyrsVIkAmvVzGUae3OA
+                  soundcloudUrl:
+                    type: string
+                    example: https://soundcloud.com/90sflav
+                  photoUrl:
+                    type: string
+                    example: https://lofiradio.blob.core.windows.net/files/artists/photos/1613485748199.jpg
+                  createdAt:
+                    type: string
+                    example: 2021-02-10T20:34:19.000Z
+                  updatedAt:
+                    type: string
+                    example: 2021-02-10T20:34:19.000Z
+
+    song-upload-body:
+      required:
+        - song
+        - cover
+      type: object
+      properties:
+        song:
+          type: string
+          format: binary
+        cover:
+          type: string
+          format: binary
+
     bad-request-error:
       type: object
       properties:
@@ -233,7 +431,7 @@ components:
           type: array
           items:
             type: string
-            example: name must be unique
+            example: error description
 
     unauthorized-error:
       type: object
