@@ -2,7 +2,7 @@ openapi: "3.0.2"
 info:
   title: Lo-Fi Radio
   description: OpenApi Docs
-  version: "0.0.1"
+  version: "1.0.0-beta"
   contact:
     name: Jorge Junior
     email: jorgelnjunior@gmail.com

@@ -1,6 +1,6 @@
 {
-  "name": "typescript-project",
-  "version": "1.5.2",
+  "name": "lofi-radio-api",
+  "version": "1.0.0-beta",
   "description": "",
   "main": "dist/src/start/server.js",
   "scripts": {
@@ -15,14 +15,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/JorgeLNJunior/typescript-project.git"
+    "url": "git+https://github.com/JorgeLNJunior/lofi-radio-api.git"
   },
   "author": "JorgeLNJunior",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/JorgeLNJunior/typescript-project/issues"
+    "url": "https://github.com/JorgeLNJunior/lofi-radio-api/issues"
   },
-  "homepage": "https://github.com/JorgeLNJunior/typescript-project#readme",
+  "homepage": "https://github.com/JorgeLNJunior/lofi-radio-api#readme",
   "devDependencies": {
     "@commitlint/cli": "^11.0.0",
     "@commitlint/config-conventional": "^11.0.0",
