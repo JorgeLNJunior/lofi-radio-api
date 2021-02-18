@@ -33,7 +33,7 @@ describe('Artists (e2e)', () => {
     const { uuid } = await ArtistFactory.aArtist().persist();
 
     const { status, body } = await request(app)
-      .post(`/artists/${uuid}/photo`)
+      .post(`/artists/${uuid}/upload`)
       .attach('photo', __dirname + '/files/1.jpg');
 
     expect(status).toBe(200);

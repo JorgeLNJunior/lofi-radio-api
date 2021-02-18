@@ -55,7 +55,7 @@ paths:
               schema:
                 $ref: "#/components/schemas/bad-request-error"
 
-  /artists/{uuid}/photo:
+  /artists/{uuid}/upload:
     post:
       summary: Upload de foto
       description: Realiza o upload da foto do artista. Após enviado o artista terá
@@ -74,14 +74,14 @@ paths:
         content:
           multipart/form-data:
             schema:
-              $ref: "#/components/schemas/artist-photo-upload-body"
+              $ref: "#/components/schemas/artist-upload-body"
       responses:
         "200":
           description: OK
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/artist-photo-upload-response"
+                $ref: "#/components/schemas/artist-upload-response"
 
   /songs:
     get:
@@ -290,14 +290,14 @@ components:
             A URL deve iniciar com "http://" ou "https://", "www" não é obrigatório.
             Também deve seguir o padrão de URL do SoundCloud (soundcloud.com/).
 
-    artist-photo-upload-body:
+    artist-upload-body:
       type: object
       properties:
         photo:
           type: string
           format: binary
 
-    artist-photo-upload-response:
+    artist-photo-response:
       type: object
       properties:
         artist:

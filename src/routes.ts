@@ -15,7 +15,7 @@ router.get('/artists/', artistsController.get);
 router.post('/artists', artistsController.create);
 
 router.post(
-  '/artists/:uuid/photo',
+  '/artists/:uuid/upload',
   multer({ limits: { fieldSize: 2000000 } }).single('photo'),
   artistsController.uploadPhoto,
 );
