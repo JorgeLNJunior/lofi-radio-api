@@ -20,6 +20,7 @@ module.exports = {
       ? 'dist/src/database/migration/**/*.js'
       : 'src/database/migration/**/*.ts',
   ],
+  migrationsRun: process.env.NODE_ENV === 'production' ? true : false,
   cli: {
     entitiesDir: 'src/app/entity',
     migrationsDir: 'src/database/migration',
