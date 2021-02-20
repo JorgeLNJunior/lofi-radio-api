@@ -5,10 +5,12 @@ import app from '../../src/start/app';
 import { ArtistFactory } from './factory/artist.factory';
 import { PlaylistFactory } from './factory/playlist.factory';
 import { SongFactory } from './factory/song.factory';
+import { sign } from './helpers/auth.helper';
 import { finishConnection } from './helpers/database.helper';
 
 describe('Artists (e2e)', () => {
   let connection: Connection;
+  const token = sign();
 
   beforeAll(async () => {
     connection = await createConnection();
@@ -29,6 +31,7 @@ describe('Artists (e2e)', () => {
 
     const { status, body } = await request(app)
       .post('/playlists')
+      .set('Authorization', `Bearer ${token}`)
       .send(playlist);
 
     expect(status).toBe(201);
@@ -45,6 +48,7 @@ describe('Artists (e2e)', () => {
 
     const { status, body } = await request(app)
       .post('/playlists')
+      .set('Authorization', `Bearer ${token}`)
       .send(playlist);
 
     expect(status).toBe(400);
@@ -56,6 +60,7 @@ describe('Artists (e2e)', () => {
 
     const { status, body } = await request(app)
       .post('/playlists')
+      .set('Authorization', `Bearer ${token}`)
       .send(playlist);
 
     expect(status).toBe(400);

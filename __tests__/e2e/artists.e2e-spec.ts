@@ -3,10 +3,12 @@ import { Connection, createConnection } from 'typeorm';
 
 import app from '../../src/start/app';
 import { ArtistFactory } from './factory/artist.factory';
+import { sign } from './helpers/auth.helper';
 import { finishConnection } from './helpers/database.helper';
 
 describe('Artists (e2e)', () => {
   let connection: Connection;
+  const token = sign();
 
   beforeAll(async () => {
     connection = await createConnection();
@@ -23,7 +25,10 @@ describe('Artists (e2e)', () => {
   test('/artists (POST) should register a artist', async () => {
     const artist = ArtistFactory.aArtist().build();
 
-    const { status, body } = await request(app).post('/artists').send(artist);
+    const { status, body } = await request(app)
+      .post('/artists')
+      .set('Authorization', `Bearer ${token}`)
+      .send(artist);
 
     expect(status).toBe(201);
     expect(body).toHaveProperty('artist');
@@ -35,6 +40,7 @@ describe('Artists (e2e)', () => {
 
   //   const { status, body } = await request(app)
   //     .post(`/artists/${uuid}/upload`)
+  //     .set('Authorization', `Bearer ${token}`)
   //     .attach('photo', __dirname + '/files/1.jpg');
 
   //   expect(status).toBe(200);
@@ -44,7 +50,10 @@ describe('Artists (e2e)', () => {
   test('/artists (POST) should not register a artist if name is undefined', async () => {
     const artist = ArtistFactory.aArtist().withoutName().build();
 
-    const { status, body } = await request(app).post('/artists').send(artist);
+    const { status, body } = await request(app)
+      .post('/artists')
+      .set('Authorization', `Bearer ${token}`)
+      .send(artist);
 
     expect(status).toBe(400);
     expect(body).toHaveProperty('errors');
@@ -53,7 +62,10 @@ describe('Artists (e2e)', () => {
   test('/artists (POST) should not register a artist with invalid spotify', async () => {
     const artist = ArtistFactory.aArtist().withInvalidSpotify().build();
 
-    const { status, body } = await request(app).post('/artists').send(artist);
+    const { status, body } = await request(app)
+      .post('/artists')
+      .set('Authorization', `Bearer ${token}`)
+      .send(artist);
 
     expect(status).toBe(400);
     expect(body).toHaveProperty('errors');
@@ -62,7 +74,10 @@ describe('Artists (e2e)', () => {
   test('/artists (POST) should not register a artist with invalid youtube', async () => {
     const artist = ArtistFactory.aArtist().withInvalidYoutube().build();
 
-    const { status, body } = await request(app).post('/artists').send(artist);
+    const { status, body } = await request(app)
+      .post('/artists')
+      .set('Authorization', `Bearer ${token}`)
+      .send(artist);
 
     expect(status).toBe(400);
     expect(body).toHaveProperty('errors');
@@ -71,7 +86,10 @@ describe('Artists (e2e)', () => {
   test('/artists (POST) should not register a artist with invalid soundcloud', async () => {
     const artist = ArtistFactory.aArtist().withInvalidSoundcloud().build();
 
-    const { status, body } = await request(app).post('/artists').send(artist);
+    const { status, body } = await request(app)
+      .post('/artists')
+      .set('Authorization', `Bearer ${token}`)
+      .send(artist);
 
     expect(status).toBe(400);
     expect(body).toHaveProperty('errors');
