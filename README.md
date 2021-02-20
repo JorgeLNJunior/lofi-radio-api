@@ -42,13 +42,13 @@ Informações básicas sobre as rotas da aplicação.
 | HTTP   | Rota                  | Descrição                       | Autenticação |
 |--------|-----------------------|---------------------------------|--------------|
 | GET    | /artists              | retorna uma lista de artistas   | não          |
-| POST   | /artists              | registra um artista             | não          |
-| POST   | /artists/:uuid/upload | upload dos arquivos de artistas | não          |
+| POST   | /artists              | registra um artista             | sim          |
+| POST   | /artists/:uuid/upload | upload dos arquivos de artistas | sim          |
 | GET    | /songs                | retorna uma lista de músicas    | não          |
-| POST   | /songs                | registra uma música             | não          |
-| POST   | /songs/:uuid/upload   | upload dos arquivos de músicas  | não          |
+| POST   | /songs                | registra uma música             | sim          |
+| POST   | /songs/:uuid/upload   | upload dos arquivos de músicas  | sim          |
 | GET    | /playlists            | retorna uma lista de playlists  | não          |
-| POST   | /playlists            | registra uma playlists          | não          |
+| POST   | /playlists            | registra uma playlists          | sim          |
 | GET    | /docs                 | documentação da API             | não          |
 
 ## Tecnologias
