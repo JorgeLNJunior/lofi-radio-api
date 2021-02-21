@@ -1,5 +1,6 @@
 import { NextFunction, Request, Response } from 'express';
 import { MulterFields } from 'src/@types/multer';
+import { SongQuery } from 'src/@types/query';
 
 import { SongBody } from '../../@types/body';
 import { BadRequestError } from '../error/badRequest.error';
@@ -14,7 +15,9 @@ export class SongController {
   ): Promise<Response | undefined> {
     try {
       const songService = new SongService();
-      const songs = await songService.find();
+
+      const query = req.query;
+      const songs = await songService.find(query as SongQuery);
 
       return res.json({
         status: 200,

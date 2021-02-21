@@ -44,9 +44,22 @@ paths:
     get:
       summary: Retorna artistas
       description: Returna uma lista com no máximo 20 artistas criados. Não retorna
-        artistas que não tiveram sua foto enviada. Querys ainda não disponíveis.
+        artistas que não tiveram sua foto enviada.
       tags:
         - "Artistas"
+      parameters:
+        - in: query
+          name: uuid
+          schema:
+            type: string
+        - in: query
+          name: name
+          schema:
+            type: string
+        - in: query
+          name: limit
+          schema:
+            type: number
       responses:
         "200":
           description: OK
@@ -129,9 +142,21 @@ paths:
       summary: Retorna músicas
       description: Returna uma lista com 20 músicas criadas. Não retorna
         músicas que não tiveram seu arquivo de aúdio e capa enviados.
-        Querys ainda não disponíveis.
       tags:
         - "Músicas"
+      parameters:
+        - in: query
+          name: uuid
+          schema:
+            type: string
+        - in: query
+          name: title
+          schema:
+            type: string
+        - in: query
+          name: limit
+          schema:
+            type: number
       responses:
         '200':
           description: OK
@@ -212,9 +237,22 @@ paths:
   /playlists:
     get:
       summary: Retorna playlists
-      description: Returna uma lista com 20 playlists criadas. Querys ainda não disponíveis.
+      description: Returna uma lista com 20 playlists criadas.
       tags:
         - "Playlists"
+      parameters:
+        - in: query
+          name: uuid
+          schema:
+            type: string
+        - in: query
+          name: title
+          schema:
+            type: string
+        - in: query
+          name: limit
+          schema:
+            type: number
       responses:
         '200':
           description: OK

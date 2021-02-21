@@ -1,4 +1,5 @@
 import { NextFunction, Request, Response } from 'express';
+import { ArtistQuery } from 'src/@types/query';
 
 import { BadRequestError } from '../error/badRequest.error';
 import { ArtistsService } from '../service/artists.service';
@@ -12,7 +13,9 @@ export class UsersController {
   ): Promise<Response | undefined> {
     try {
       const artistsService = new ArtistsService();
-      const artists = await artistsService.get();
+
+      const query = req.query;
+      const artists = await artistsService.get(query as ArtistQuery);
 
       return res.json({
         status: 200,

@@ -1,4 +1,5 @@
 import { NextFunction, Request, Response } from 'express';
+import { PlaylistQuery } from 'src/@types/query';
 
 import { BadRequestError } from '../error/badRequest.error';
 import { PlaylistService } from '../service/playlist.service';
@@ -13,7 +14,8 @@ export class PlaylistController {
     try {
       const playlistService = new PlaylistService();
 
-      const playlists = await playlistService.find();
+      const query = req.query;
+      const playlists = await playlistService.find(query as PlaylistQuery);
 
       return res.json({
         status: 200,
