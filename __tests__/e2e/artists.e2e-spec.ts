@@ -34,18 +34,17 @@ describe('Artists (e2e)', () => {
     expect(body).toHaveProperty('artist');
   });
 
-  // eslint-disable-next-line jest/no-commented-out-tests
-  // test('/artists (POST) should update artist photo', async () => {
-  //   const { uuid } = await ArtistFactory.aArtist().persist();
+  test('/artists (POST) should update artist photo', async () => {
+    const { uuid } = await ArtistFactory.aArtist().persist();
 
-  //   const { status, body } = await request(app)
-  //     .post(`/artists/${uuid}/upload`)
-  //     .set('Authorization', `Bearer ${token}`)
-  //     .attach('photo', __dirname + '/files/1.jpg');
+    const { status, body } = await request(app)
+      .post(`/artists/${uuid}/upload`)
+      .set('Authorization', `Bearer ${token}`)
+      .attach('photo', __dirname + '/files/1.jpg');
 
-  //   expect(status).toBe(200);
-  //   expect(body).toHaveProperty('artist');
-  // });
+    expect(status).toBe(200);
+    expect(body).toHaveProperty('artist');
+  });
 
   test('/artists (POST) should not register a artist if name is undefined', async () => {
     const artist = ArtistFactory.aArtist().withoutName().build();
@@ -93,12 +92,6 @@ describe('Artists (e2e)', () => {
 
     expect(status).toBe(400);
     expect(body).toHaveProperty('errors');
-  });
-
-  test('/notFound (GET) should return 404 if route does not exist', async () => {
-    const { status } = await request(app).get('/notFound');
-
-    expect(status).toBe(404);
   });
 
   afterAll(async () => {

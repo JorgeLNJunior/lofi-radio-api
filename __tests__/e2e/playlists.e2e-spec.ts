@@ -8,7 +8,7 @@ import { SongFactory } from './factory/song.factory';
 import { sign } from './helpers/auth.helper';
 import { finishConnection } from './helpers/database.helper';
 
-describe('Artists (e2e)', () => {
+describe('Playlists (e2e)', () => {
   let connection: Connection;
   const token = sign();
 

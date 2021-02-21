@@ -61,20 +61,19 @@ describe('Songs (e2e)', () => {
     expect(body).toHaveProperty('errors');
   });
 
-  // eslint-disable-next-line jest/no-commented-out-tests
-  // test('/songs (POST) should create upload the song file and cover', async () => {
-  //   const artist = await ArtistFactory.aArtist().persist();
-  //   const { uuid } = await SongFactory.aSong().withArtist(artist).persist();
+  test('/songs (POST) should create upload the song file and cover', async () => {
+    const artist = await ArtistFactory.aArtist().persist();
+    const { uuid } = await SongFactory.aSong().withArtist(artist).persist();
 
-  //   const { status, body } = await request(app)
-  //     .post(`/songs/${uuid}/upload`)
-  //     .set('Authorization', `Bearer ${token}`)
-  //     .attach('song', __dirname + '/files/2.mp3')
-  //     .attach('cover', __dirname + '/files/1.jpg');
+    const { status, body } = await request(app)
+      .post(`/songs/${uuid}/upload`)
+      .set('Authorization', `Bearer ${token}`)
+      .attach('song', __dirname + '/files/2.mp3')
+      .attach('cover', __dirname + '/files/1.jpg');
 
-  //   expect(status).toBe(200);
-  //   expect(body).toHaveProperty('song');
-  // });
+    expect(status).toBe(200);
+    expect(body).toHaveProperty('song');
+  });
 
   afterAll(async () => {
     await finishConnection(connection);

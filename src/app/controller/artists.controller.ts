@@ -5,7 +5,7 @@ import { BadRequestError } from '../error/badRequest.error';
 import { ArtistsService } from '../service/artists.service';
 import { CreateArtistValidator } from '../validator/artists/create.validator';
 
-export class UsersController {
+export class ArtistController {
   async get(
     req: Request,
     res: Response,
