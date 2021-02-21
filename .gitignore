@@ -4,7 +4,10 @@
 
 ### Node ###
 # static
-public/
+public/**/*.jpg
+public/**/*.png
+public/**/*.jpeg
+public/**/*.mp3
 
 # Logs
 logs
