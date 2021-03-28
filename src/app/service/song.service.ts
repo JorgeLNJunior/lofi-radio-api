@@ -58,7 +58,7 @@ export class SongService {
     const coverUrl = await storage.storeCover(cover);
 
     await repository.update(songUuid, {
-      coverurl: coverUrl,
+      coverUrl: coverUrl,
       songUrl: songUrl,
       isHidden: false,
     });
