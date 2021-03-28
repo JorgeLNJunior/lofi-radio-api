@@ -13,6 +13,8 @@ info:
 servers:
   - url: http://localhost:3000
     description: servidor local - desenvolvimento
+  - url: https://api-lofi-radio.herokuapp.com
+    description: servidor remoto - produção
 
 paths:
   /sign:
@@ -179,7 +181,7 @@ paths:
             schema:
               $ref: "#/components/schemas/song-register-body"
       responses:
-        '200':
+        '201':
           description: OK
           content:
             application/json:
@@ -354,7 +356,7 @@ components:
           properties:
             status:
               type: number
-              default: 200
+              default: 201
             artist:
               type: object
               properties:
@@ -418,7 +420,7 @@ components:
           type: string
           format: binary
 
-    artist-photo-response:
+    artist-upload-response:
       type: object
       properties:
         artist:
