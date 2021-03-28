@@ -42,6 +42,9 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/unauthorized-error"
+        "429":
+          $ref: "#/components/responses/too-many-requests"
+
   /artists:
     get:
       summary: Retorna artistas
@@ -69,6 +72,8 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/artists-response"
+        "429":
+          $ref: "#/components/responses/too-many-requests"
 
     post:
       summary: Registra um novo artista
@@ -102,6 +107,8 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/unauthorized-error"
+        "429":
+          $ref: "#/components/responses/too-many-requests"
 
   /artists/{uuid}/upload:
     post:
@@ -138,6 +145,8 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/unauthorized-error"
+        "429":
+          $ref: "#/components/responses/too-many-requests"
 
   /songs:
     get:
@@ -166,6 +175,8 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/songs-response"
+        "429":
+          $ref: "#/components/responses/too-many-requests"
 
     post:
       summary: Registra uma nova música
@@ -199,6 +210,8 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/unauthorized-error"
+        "429":
+          $ref: "#/components/responses/too-many-requests"
 
   /songs/{uuid}/upload:
     post:
@@ -235,6 +248,8 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/unauthorized-error"
+        "429":
+          $ref: "#/components/responses/too-many-requests"
 
   /playlists:
     get:
@@ -262,6 +277,8 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/playlists-response"
+        "429":
+          $ref: "#/components/responses/too-many-requests"
 
     post:
       summary: Registra uma playlist
@@ -295,6 +312,8 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/unauthorized-error"
+        "429":
+          $ref: "#/components/responses/too-many-requests"
 
 components:
   schemas:
@@ -807,6 +826,33 @@ components:
           items:
             type: string
             example: invalid credentials
+
+    too-many-requests:
+      type: string
+      default: Too many requests, please try again later.
+
+    internal-error:
+      type: object
+      properties:
+        status:
+          type: number
+          default: 401
+        message:
+          type: string
+          example: internal error
+        errors:
+          type: array
+          items:
+            type: string
+
+  responses:
+    too-many-requests:
+      description: Too Many Requests
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/too-many-requests"
+
 
   securitySchemes:
     bearerAuth:
