@@ -1,30 +1,20 @@
 import { MulterFields } from 'src/@types/multer';
 import { SongQuery } from 'src/@types/query';
-import { FindConditions, getRepository } from 'typeorm';
+import { getRepository } from 'typeorm';
 
 import { SongBody } from '../../@types/body';
 import { Artist } from '../entity/artist.entity';
 import { Song } from '../entity/song.entity';
 import { BadRequestError } from '../error/badRequest.error';
 import { SongsStorageFactory } from '../storage/factory/songFactory.storage';
+import { SongQueryBuilder } from './query/songQueryBuilder';
 
 export class SongService {
   async find(query: SongQuery): Promise<Song[]> {
     const repository = getRepository(Song);
-    const { limit, title, uuid } = query;
+    const findOptions = new SongQueryBuilder(query).build();
 
-    const conditions: FindConditions<Song> = {};
-    if (title) conditions.title = title;
-    if (uuid) conditions.uuid = uuid;
-
-    return repository.find({
-      relations: ['artists'],
-      take: limit || 20,
-      where: {
-        isHidden: false,
-        ...conditions,
-      },
-    });
+    return repository.find(findOptions);
   }
 
   async create(body: SongBody): Promise<Song | undefined> {
