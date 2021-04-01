@@ -8,20 +8,21 @@ import app from './app';
 import { AzureStarter } from './azure';
 import { WebSocket } from './webSocket';
 
-const azureStarter = new AzureStarter();
-
 const port = parseInt(process.env.PORT as string) || 3000;
 
-const server = app.listen(port, () => {
-  const socket = new WebSocket(server);
-  socket.init();
-
+const server = app.listen(port, async () => {
   ConsoleMessage.serverStart(port);
 
-  if (!process.env.STORAGE) {
-    ConsoleMessage.emptyStorageEnv();
-  } else if (process.env.STORAGE === 'azure') {
-    azureStarter.createContainerIfNotExist();
+  try {
+    const socket = new WebSocket(server);
+    const azureStarter = new AzureStarter();
+
+    socket.init();
+    await azureStarter.init();
+  } catch (error) {
+    ConsoleMessage.appStartError();
+    console.log(error);
+    server.close();
   }
 
   if (process.env.NODE_ENV === 'production') {

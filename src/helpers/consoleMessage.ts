@@ -14,6 +14,18 @@ export class ConsoleMessage {
     console.log(message);
   }
 
+  static appStartError(): void {
+    const time = format(Date.now(), 'HH:mm:ss');
+    const message =
+      '[' +
+      chalk.red('SERVER') +
+      '] ' +
+      chalk.gray.bold(time) +
+      chalk.red(` App start error, closing server`);
+
+    console.log(message);
+  }
+
   static webSocketStart(): void {
     const time = format(Date.now(), 'HH:mm:ss');
     const message =
@@ -72,6 +84,18 @@ export class ConsoleMessage {
       chalk.yellow(
         ` "STORAGE" enviroment variable is undefined. Using local storage.`,
       );
+    console.log(message);
+  }
+
+  static azureContainerCreated(): void {
+    const time = format(Date.now(), 'HH:mm:ss');
+    const message =
+      '[' +
+      chalk.green('SERVER') +
+      '] ' +
+      chalk.gray.bold(time) +
+      chalk.green(` Azure container created.`);
+
     console.log(message);
   }
 }
