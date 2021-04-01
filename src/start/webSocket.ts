@@ -1,6 +1,8 @@
 import { Server } from 'node:http';
 import { Server as SocketServer, Socket } from 'socket.io';
 
+import { ConsoleMessage } from '../helpers/consoleMessage';
+
 export type ChatMessage = {
   username: string;
   message: string;
@@ -15,6 +17,7 @@ export class WebSocket {
 
   init(): void {
     const io = new SocketServer(this.server);
+
     io.on('connection', (socket: Socket) => {
       socket.on('chat message', (msg: ChatMessage) => {
         io.emit('chat message', {
@@ -23,5 +26,7 @@ export class WebSocket {
         } as ChatMessage);
       });
     });
+
+    ConsoleMessage.webSocketStart();
   }
 }
