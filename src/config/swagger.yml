@@ -315,6 +315,28 @@ paths:
         "429":
           $ref: "#/components/responses/too-many-requests"
 
+  /socket.io/socket.io.js:
+    get:
+      tags:
+        - "Chat"
+      summary: Socket.IO Chat
+      description: Rota responsável pela comunicação via Socket.IO do chat.
+      requestBody:
+        content:
+          websocket:
+              schema:
+                type: object
+                properties:
+                  username:
+                    type: string
+                    example: user
+                  message:
+                    type: string
+                    example: Hi!
+      responses:
+        default:
+          description: OK
+
 components:
   schemas:
     admin-credentials:

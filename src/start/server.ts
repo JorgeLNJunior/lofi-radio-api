@@ -5,12 +5,16 @@ import { getConnection } from 'typeorm';
 
 import app from './app';
 import { AzureStarter } from './azure';
+import { WebSocket } from './webSocket';
 
 const azureStarter = new AzureStarter();
 
 const port = parseInt(process.env.PORT as string) || 3000;
 
 const server = app.listen(port, () => {
+  const socket = new WebSocket(server);
+  socket.init();
+
   const time = format(Date.now(), 'HH:mm:ss');
 
   const startMessage =
