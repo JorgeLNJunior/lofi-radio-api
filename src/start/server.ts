@@ -1,3 +1,5 @@
+import './database';
+
 import { createHttpTerminator } from 'http-terminator';
 import { getConnection } from 'typeorm';
 

@@ -1,5 +1,4 @@
 import 'reflect-metadata';
-import './database';
 
 import cors from 'cors';
 import { config } from 'dotenv';
