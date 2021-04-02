@@ -36,7 +36,7 @@ router.post('/songs', verifyToken, songsController.create);
 router.post(
   '/songs/:uuid/upload',
   verifyToken,
-  multer().fields([
+  multer({ limits: { fileSize: 8000000 } }).fields([
     { name: 'song', maxCount: 1 },
     { name: 'cover', maxCount: 1 },
   ]),
