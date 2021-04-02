@@ -21,7 +21,7 @@ export class Song {
   songUrl: string;
 
   @Column({ name: 'cover_url', nullable: true })
-  coverurl: string;
+  coverUrl: string;
 
   @ManyToMany(() => Artist, (artist) => artist.songs, {
     onDelete: 'CASCADE',

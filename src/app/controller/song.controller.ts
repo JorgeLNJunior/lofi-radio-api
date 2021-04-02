@@ -37,10 +37,10 @@ export class SongController {
     const validator = new CreateSongValidator();
     const body = req.body;
 
-    const { value, error } = validator.validate(body);
+    const { value, error: validationError } = validator.validate(body);
 
     try {
-      if (error) throw new BadRequestError([error.message]);
+      if (validationError) throw new BadRequestError([validationError.message]);
 
       const song = await songService.create(value as SongBody);
 

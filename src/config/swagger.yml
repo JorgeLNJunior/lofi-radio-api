@@ -2,7 +2,7 @@ openapi: "3.0.2"
 info:
   title: Lo-Fi Radio
   description: OpenApi Docs
-  version: "1.0.1"
+  version: "1.1.0"
   contact:
     name: Jorge Junior
     email: jorgelnjunior@gmail.com
@@ -13,6 +13,8 @@ info:
 servers:
   - url: http://localhost:3000
     description: servidor local - desenvolvimento
+  - url: https://api-lofi-radio.herokuapp.com
+    description: servidor remoto - produção
 
 paths:
   /sign:
@@ -40,6 +42,9 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/unauthorized-error"
+        "429":
+          $ref: "#/components/responses/too-many-requests"
+
   /artists:
     get:
       summary: Retorna artistas
@@ -67,6 +72,8 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/artists-response"
+        "429":
+          $ref: "#/components/responses/too-many-requests"
 
     post:
       summary: Registra um novo artista
@@ -100,6 +107,8 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/unauthorized-error"
+        "429":
+          $ref: "#/components/responses/too-many-requests"
 
   /artists/{uuid}/upload:
     post:
@@ -136,6 +145,8 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/unauthorized-error"
+        "429":
+          $ref: "#/components/responses/too-many-requests"
 
   /songs:
     get:
@@ -164,6 +175,8 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/songs-response"
+        "429":
+          $ref: "#/components/responses/too-many-requests"
 
     post:
       summary: Registra uma nova música
@@ -179,7 +192,7 @@ paths:
             schema:
               $ref: "#/components/schemas/song-register-body"
       responses:
-        '200':
+        '201':
           description: OK
           content:
             application/json:
@@ -197,6 +210,8 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/unauthorized-error"
+        "429":
+          $ref: "#/components/responses/too-many-requests"
 
   /songs/{uuid}/upload:
     post:
@@ -233,6 +248,8 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/unauthorized-error"
+        "429":
+          $ref: "#/components/responses/too-many-requests"
 
   /playlists:
     get:
@@ -260,6 +277,8 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/playlists-response"
+        "429":
+          $ref: "#/components/responses/too-many-requests"
 
     post:
       summary: Registra uma playlist
@@ -293,6 +312,30 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/unauthorized-error"
+        "429":
+          $ref: "#/components/responses/too-many-requests"
+
+  /socket.io/socket.io.js:
+    get:
+      tags:
+        - "Chat"
+      summary: Socket.IO Chat
+      description: Rota responsável pela comunicação via Socket.IO do chat.
+      requestBody:
+        content:
+          websocket:
+              schema:
+                type: object
+                properties:
+                  username:
+                    type: string
+                    example: user
+                  message:
+                    type: string
+                    example: Hi!
+      responses:
+        default:
+          description: OK
 
 components:
   schemas:
@@ -354,7 +397,7 @@ components:
           properties:
             status:
               type: number
-              default: 200
+              default: 201
             artist:
               type: object
               properties:
@@ -418,7 +461,7 @@ components:
           type: string
           format: binary
 
-    artist-photo-response:
+    artist-upload-response:
       type: object
       properties:
         artist:
@@ -805,6 +848,33 @@ components:
           items:
             type: string
             example: invalid credentials
+
+    too-many-requests:
+      type: string
+      default: Too many requests, please try again later.
+
+    internal-error:
+      type: object
+      properties:
+        status:
+          type: number
+          default: 401
+        message:
+          type: string
+          example: internal error
+        errors:
+          type: array
+          items:
+            type: string
+
+  responses:
+    too-many-requests:
+      description: Too Many Requests
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/too-many-requests"
+
 
   securitySchemes:
     bearerAuth:

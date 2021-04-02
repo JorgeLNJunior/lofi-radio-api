@@ -1,27 +1,18 @@
-import { ArtistQuery } from 'src/@types/query';
-import { FindConditions, getRepository } from 'typeorm';
+import { getRepository } from 'typeorm';
 
 import { ArtistBody } from '../../@types/body';
+import { ArtistQuery } from '../../@types/query';
 import { Artist } from '../entity/artist.entity';
 import { BadRequestError } from '../error/badRequest.error';
 import { ArtistStorageFactory } from '../storage/factory/artistFactory.storage';
+import { ArtistQueryBuilder } from './query/artistQueryBuilder';
 
 export class ArtistsService {
-  async get(query: ArtistQuery): Promise<Artist[]> {
-    const { limit, uuid, name } = query;
-
-    const conditions: FindConditions<Artist> = {};
-    if (uuid) conditions.uuid = uuid;
-    if (name) conditions.name = name;
-
+  async find(query: ArtistQuery): Promise<Artist[]> {
     const repository = getRepository(Artist);
-    return await repository.find({
-      take: limit || 20,
-      where: {
-        isHidden: false,
-        ...conditions,
-      },
-    });
+    const findOptions = new ArtistQueryBuilder(query).build();
+
+    return repository.find(findOptions);
   }
 
   async create(artist: ArtistBody): Promise<Artist> {

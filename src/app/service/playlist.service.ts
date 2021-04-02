@@ -1,27 +1,18 @@
 import { PlaylistBody } from 'src/@types/body';
 import { PlaylistQuery } from 'src/@types/query';
-import { FindConditions, getRepository } from 'typeorm';
+import { getRepository } from 'typeorm';
 
 import { Playlist } from '../entity/playlist.entity';
 import { Song } from '../entity/song.entity';
 import { BadRequestError } from '../error/badRequest.error';
+import { PlaylistQueryBuilder } from './query/playlistQueryBuilder';
 
 export class PlaylistService {
   async find(query: PlaylistQuery): Promise<Playlist[]> {
     const repository = getRepository(Playlist);
-    const { limit, uuid, title } = query;
+    const findOptions = new PlaylistQueryBuilder(query).build();
 
-    const conditions: FindConditions<Playlist> = {};
-    if (uuid) conditions.uuid = uuid;
-    if (title) conditions.title = title;
-
-    const playlists = await repository.find({
-      take: limit || 20,
-      relations: ['songs', 'songs.artists'],
-      where: conditions,
-    });
-
-    return playlists;
+    return repository.find(findOptions);
   }
 
   async create(body: PlaylistBody): Promise<Playlist | undefined> {
