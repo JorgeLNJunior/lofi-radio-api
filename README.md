@@ -12,6 +12,7 @@ Simples aplicação de streaming de Lo-Fi Hip-Hop.
 
 [![Actions Build](https://img.shields.io/github/workflow/status/JorgeLNJunior/lofi-radio-api/Node.js%20CI/master)](https://github.com/JorgeLNJunior/lofi-radio-api/actions?query=workflow%3A%22Node.js+CI%22)
 [![Codecov](https://codecov.io/gh/JorgeLNJunior/lofi-radio-api/branch/master/graph/badge.svg?token=W07MKRKK4M)](https://codecov.io/gh/JorgeLNJunior/lofi-radio-api)
+[![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=JorgeLNJunior_lofi-radio-api&metric=alert_status)](https://sonarcloud.io/dashboard?id=JorgeLNJunior_lofi-radio-api)
 [![License](https://img.shields.io/github/license/JorgeLNJunior/lofi-radio-api)](https://github.com/JorgeLNJunior/lofi-radio-api/blob/master/LICENSE.md)
 [![Release](https://img.shields.io/github/v/release/JorgeLNJunior/lofi-radio-api?color=lgreen)](https://github.com/JorgeLNJunior/lofi-radio-api/releases)
 
@@ -19,7 +20,7 @@ Simples aplicação de streaming de Lo-Fi Hip-Hop.
 
 <div align="center">
 
-[**URL para o projeto »**](https://github.com/JorgeLNJunior/lofi-radio-api)
+[**API »**](https://api-lofi-radio.herokuapp.com/)
 
 </div>
 
@@ -69,8 +70,7 @@ Este projeto foi construído com as seguintes tecnologias:
 
 ### Opcional
   - Conta na plataforma [Codecov »](https://codecov.io)
-  - Uma [API KEY »](https://docs.github.com/en/actions/reference/encrypted-secrets) do GitHub configurada no repositório para a action `dependabot-auto-merge`
-  - Uma [SAS Key »](https://docs.microsoft.com/pt-br/azure/storage/common/storage-sas-overview) do Azure.
+  - Uma [SAS Key »](https://docs.microsoft.com/pt-br/azure/storage/common/storage-sas-overview) do Azure Storage.
 
 ### Instalação
   1. Clone o projeto: `git clone https://github.com/JorgeLNJunior/lofi-radio-api.git`
