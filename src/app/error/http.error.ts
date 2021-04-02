@@ -7,7 +7,7 @@ export class HttpError implements Error {
 
   name: string;
   message: string;
-  stack?: string | undefined;
+  stack?: string;
   status: number;
   errors?: string[];
 }

@@ -5,14 +5,13 @@ import { config } from 'dotenv';
 import express, { Request, Response } from 'express';
 import hateLimit from 'express-rate-limit';
 import helmet from 'helmet';
-import path from 'path';
 import { resolve } from 'path';
 import swaggerUi from 'swagger-ui-express';
 import YML from 'yamljs';
 
 import { errorHandler } from '../app/middleware/error.handler';
 import { httpLogger } from '../config/logger';
-import router from '../routes';
+import router from '../router';
 
 config({ path: process.env.NODE_ENV === 'test' ? '.env.test' : '.env' });
 const swaggerDoc = YML.load(resolve('src/config/swagger.yml'));
@@ -23,7 +22,7 @@ if (process.env.NODE_ENV !== 'test') {
   app.use(hateLimit({ max: 30 }));
 }
 app.use(express.json());
-app.use(express.static(path.resolve('public')));
+app.use(express.static(resolve('public')));
 app.use(cors());
 app.use(helmet());
 app.use(httpLogger);

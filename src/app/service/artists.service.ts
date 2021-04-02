@@ -8,11 +8,11 @@ import { ArtistStorageFactory } from '../storage/factory/artistFactory.storage';
 import { ArtistQueryBuilder } from './query/artistQueryBuilder';
 
 export class ArtistsService {
-  async get(query: ArtistQuery): Promise<Artist[]> {
+  async find(query: ArtistQuery): Promise<Artist[]> {
     const repository = getRepository(Artist);
     const findOptions = new ArtistQueryBuilder(query).build();
 
-    return await repository.find(findOptions);
+    return repository.find(findOptions);
   }
 
   async create(artist: ArtistBody): Promise<Artist> {

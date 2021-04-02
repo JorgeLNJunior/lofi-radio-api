@@ -7,8 +7,7 @@ export class JWT {
   sign(credentials: AdminCredentials): string {
     this.verifyAdminCredentials(credentials);
 
-    const token = jwt.sign({}, this.secret, { expiresIn: '3d' });
-    return token;
+    return jwt.sign({}, this.secret, { expiresIn: '3d' });
   }
 
   verify(token: string | undefined): void {

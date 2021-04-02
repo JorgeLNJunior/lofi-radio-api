@@ -15,7 +15,7 @@ export class ArtistController {
       const artistsService = new ArtistsService();
 
       const query = req.query;
-      const artists = await artistsService.get(query as ArtistQuery);
+      const artists = await artistsService.find(query as ArtistQuery);
 
       return res.json({
         status: 200,
@@ -31,14 +31,14 @@ export class ArtistController {
     res: Response,
     next: NextFunction,
   ): Promise<Response | undefined> {
-    const artistsService = new ArtistsService();
     const body = req.body;
+    const artistsService = new ArtistsService();
     const validator = new CreateArtistValidator();
 
-    const { error, value } = validator.validate(body);
+    const { error: validationError, value } = validator.validate(body);
 
     try {
-      if (error) throw new BadRequestError([error.message]);
+      if (validationError) throw new BadRequestError([validationError.message]);
       const artist = await artistsService.create(value);
 
       return res.status(201).json({

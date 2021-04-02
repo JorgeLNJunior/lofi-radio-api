@@ -36,9 +36,9 @@ export class PlaylistController {
       const validator = new CreatePlaylistValidator();
       const body = req.body;
 
-      const { value, error } = validator.validate(body);
+      const { value, error: validationError } = validator.validate(body);
 
-      if (error) throw new BadRequestError([error.message]);
+      if (validationError) throw new BadRequestError([validationError.message]);
 
       const playlist = await playlistService.create(value);
 
