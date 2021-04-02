@@ -62,18 +62,6 @@ export class ConsoleMessage {
     console.log(message);
   }
 
-  static databaseConnectionError(): void {
-    const time = format(Date.now(), 'HH:mm:ss');
-    const message =
-      '[' +
-      chalk.red('DATABASE') +
-      '] ' +
-      chalk.gray.bold(time) +
-      chalk.red(` Database error`);
-
-    console.log(message);
-  }
-
   static emptyStorageEnv(): void {
     const time = format(Date.now(), 'HH:mm:ss');
     const message =

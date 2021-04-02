@@ -1,11 +1,10 @@
-import './database';
-
 import { createHttpTerminator } from 'http-terminator';
 import { getConnection } from 'typeorm';
 
 import { ConsoleMessage } from '../helpers/consoleMessage';
 import app from './app';
 import { AzureStarter } from './azure';
+import { DatabaseStarter } from './database';
 import { WebSocket } from './webSocket';
 
 const port = parseInt(process.env.PORT as string) || 3000;
@@ -14,14 +13,17 @@ const server = app.listen(port, async () => {
   ConsoleMessage.serverStart(port);
 
   try {
-    const socket = new WebSocket(server);
     const azureStarter = new AzureStarter();
+    const databaseStarter = new DatabaseStarter();
+    const socket = new WebSocket(server);
 
-    socket.init();
+    await databaseStarter.init();
     await azureStarter.init();
+    socket.init();
   } catch (error) {
     ConsoleMessage.appStartError();
     console.log(error);
+    console.log(typeof error);
     server.close();
   }
 

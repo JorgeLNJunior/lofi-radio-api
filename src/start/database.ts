@@ -2,11 +2,9 @@ import { createConnection } from 'typeorm';
 
 import { ConsoleMessage } from '../helpers/consoleMessage';
 
-createConnection()
-  .then(() => {
+export class DatabaseStarter {
+  async init(): Promise<void> {
+    await createConnection();
     ConsoleMessage.databaseConnection();
-  })
-  .catch((error) => {
-    ConsoleMessage.databaseConnectionError();
-    console.log(error);
-  });
+  }
+}
