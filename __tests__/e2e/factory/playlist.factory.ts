@@ -23,6 +23,13 @@ export class PlaylistFactory {
     return this;
   }
 
+  withSongUuid(uuid: string): PlaylistFactory {
+    if (this.playlist.songsUuids) {
+      this.playlist.songsUuids.push(uuid);
+    }
+    return this;
+  }
+
   withoutTitle(): PlaylistFactory {
     delete this.playlist.title;
     return this;

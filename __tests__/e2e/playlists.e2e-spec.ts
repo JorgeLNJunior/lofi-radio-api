@@ -67,6 +67,18 @@ describe('Playlists (e2e)', () => {
     expect(body).toHaveProperty('errors');
   });
 
+  test('/artists (POST) should not register a playlist with invalid song uuid', async () => {
+    const playlist = PlaylistFactory.aPlaylist().withSongUuid('123').build();
+
+    const { status, body } = await request(app)
+      .post('/playlists')
+      .set('Authorization', `Bearer ${token}`)
+      .send(playlist);
+
+    expect(status).toBe(400);
+    expect(body).toHaveProperty('errors');
+  });
+
   afterAll(async () => {
     await finishConnection(connection);
   });
