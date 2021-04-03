@@ -16,11 +16,9 @@ export class ArtistQueryBuilder {
     if (this.query.name) conditions.name = ILike(`%${this.query.name}%`);
     conditions.isHidden = false;
 
-    const findOptions: FindManyOptions<Artist> = {
+    return {
       take: this.query.limit || 20,
       where: conditions,
-    };
-
-    return findOptions;
+    } as FindManyOptions<Artist>;
   }
 }

@@ -16,12 +16,10 @@ export class SongQueryBuilder {
     if (this.query.title) conditions.title = ILike(`%${this.query.title}%`);
     conditions.isHidden = false;
 
-    const findOptions: FindManyOptions<Song> = {
+    return {
       relations: ['artists'],
       take: this.query.limit || 20,
       where: conditions,
-    };
-
-    return findOptions;
+    } as FindManyOptions<Song>;
   }
 }

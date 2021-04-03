@@ -15,12 +15,10 @@ export class PlaylistQueryBuilder {
     if (this.query.uuid) conditions.uuid = this.query.uuid;
     if (this.query.title) conditions.title = ILike(`%${this.query.title}%`);
 
-    const findOptions: FindManyOptions<Playlist> = {
+    return {
       relations: ['songs', 'songs.artists'],
       take: this.query.limit || 20,
       where: conditions,
-    };
-
-    return findOptions;
+    } as FindManyOptions<Playlist>;
   }
 }
