@@ -30,8 +30,18 @@ export class PlaylistFactory {
     return this;
   }
 
+  withoutSongsUuids(): PlaylistFactory {
+    delete this.playlist.songsUuids;
+    return this;
+  }
+
   withoutTitle(): PlaylistFactory {
     delete this.playlist.title;
+    return this;
+  }
+
+  withoutInvalidTitle(): PlaylistFactory {
+    this.playlist.title = Faker.lorem.word(2);
     return this;
   }
 
