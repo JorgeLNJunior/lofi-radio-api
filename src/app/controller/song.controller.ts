@@ -1,11 +1,12 @@
 import { NextFunction, Request, Response } from 'express';
-import { MulterFields } from 'src/@types/multer';
-import { SongQuery } from 'src/@types/query';
 
-import { SongBody } from '../../@types/body';
+import { SongBody, SongUpdateBody } from '../../@types/body';
+import { MulterFields } from '../../@types/multer';
+import { SongQuery } from '../../@types/query';
 import { BadRequestError } from '../error/badRequest.error';
 import { SongService } from '../service/song.service';
 import { CreateSongValidator } from '../validator/songs/create.validator';
+import { UpdateSongValidator } from '../validator/songs/update.validator';
 
 export class SongController {
   async find(
@@ -66,6 +67,32 @@ export class SongController {
       const song = await songService.upload(uuid, files);
 
       return res.json({
+        status: 200,
+        song: song,
+      });
+    } catch (error) {
+      next(error);
+    }
+  }
+
+  async update(
+    req: Request,
+    res: Response,
+    next: NextFunction,
+  ): Promise<Response | undefined> {
+    const songService = new SongService();
+    const validator = new UpdateSongValidator();
+    const body = req.body;
+    const { uuid } = req.params;
+
+    const { value, error: validationError } = validator.validate(body);
+
+    try {
+      if (validationError) throw new BadRequestError([validationError.message]);
+
+      const song = await songService.update(uuid, value as SongUpdateBody);
+
+      return res.status(200).json({
         status: 200,
         song: song,
       });

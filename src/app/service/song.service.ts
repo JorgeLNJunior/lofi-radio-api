@@ -2,7 +2,7 @@ import { MulterFields } from 'src/@types/multer';
 import { SongQuery } from 'src/@types/query';
 import { getRepository } from 'typeorm';
 
-import { SongBody } from '../../@types/body';
+import { SongBody, SongUpdateBody } from '../../@types/body';
 import { Artist } from '../entity/artist.entity';
 import { Song } from '../entity/song.entity';
 import { BadRequestError } from '../error/badRequest.error';
@@ -64,5 +64,16 @@ export class SongService {
     });
 
     return repository.findOne(songUuid);
+  }
+
+  async update(uuid: string, body: SongUpdateBody): Promise<Song | undefined> {
+    const repository = getRepository(Song);
+
+    const isValidSong = await repository.findOne(uuid);
+    if (!isValidSong) throw new BadRequestError(['song not found']);
+
+    await repository.update({ uuid: uuid }, body);
+
+    return repository.findOne(uuid);
   }
 }

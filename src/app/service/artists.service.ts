@@ -37,4 +37,15 @@ export class ArtistsService {
     artist = await repository.findOne(uuid);
     return artist as Artist;
   }
+
+  async update(uuid: string, body: ArtistBody): Promise<Artist | undefined> {
+    const repository = getRepository(Artist);
+
+    const isValidArtist = await repository.findOne(uuid);
+    if (!isValidArtist) throw new BadRequestError(['artist not found']);
+
+    await repository.update({ uuid: uuid }, body);
+
+    return repository.findOne(uuid);
+  }
 }

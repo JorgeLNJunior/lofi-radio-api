@@ -10,8 +10,17 @@ export type SongBody = {
   artistsUuids?: string[];
 };
 
+export type SongUpdateBody = {
+  title?: string;
+};
+
 export type PlaylistBody = {
   title?: string;
   originalUrl?: string;
   songsUuids?: string[];
+};
+
+export type PlaylistUpdateBody = {
+  title?: string;
+  originalUrl?: string;
 };
