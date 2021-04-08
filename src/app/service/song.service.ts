@@ -31,7 +31,7 @@ export class SongService {
     }
 
     if (artists.length < body.artistsUuids.length) {
-      throw new BadRequestError(['one or more artists do not exist']);
+      throw new BadRequestError(['one or more artists were not found']);
     }
 
     const song = songRepository.create({
@@ -74,6 +74,6 @@ export class SongService {
 
     await repository.update({ uuid: uuid }, body);
 
-    return repository.findOne(uuid);
+    return repository.findOne(uuid, { relations: ['artists'] });
   }
 }

@@ -31,7 +31,7 @@ export class PlaylistService {
     }
 
     if (songs.length < body.songsUuids.length) {
-      throw new BadRequestError(['one or more song do not exist']);
+      throw new BadRequestError(['one or more songs where not found']);
     }
 
     const playlist = playlistRepository.create({
@@ -58,6 +58,6 @@ export class PlaylistService {
 
     await repository.update({ uuid: uuid }, body);
 
-    return repository.findOne(uuid);
+    return repository.findOne(uuid, { relations: ['songs', 'songs.artists'] });
   }
 }
