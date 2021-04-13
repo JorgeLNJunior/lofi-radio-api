@@ -28,10 +28,11 @@ export class ArtistsService {
     const storage = new ArtistStorageFactory().create();
     const repository = getRepository(Artist);
 
-    const url = await storage.storePhoto(photo);
-
     let artist = await repository.findOne(uuid);
     if (!artist) throw new BadRequestError(['artist not found']);
+
+    if (artist.photoUrl) await storage.delete(artist.photoUrl);
+    const url = await storage.storePhoto(photo);
 
     await repository.update(uuid, { photoUrl: url, isHidden: false });
     artist = await repository.findOne(uuid);

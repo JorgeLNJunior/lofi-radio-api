@@ -48,14 +48,17 @@ export class SongService {
     const storage = new SongsStorageFactory().create();
     const repository = getRepository(Song);
 
-    const song = files.song[0];
-    const cover = files.cover[0];
+    const songFile = files.song[0];
+    const coverFile = files.cover[0];
 
-    const songExist = await repository.findOne(songUuid);
-    if (!songExist) throw new BadRequestError(['song not found']);
+    const song = await repository.findOne(songUuid);
+    if (!song) throw new BadRequestError(['song not found']);
 
-    const songUrl = await storage.storeSong(song);
-    const coverUrl = await storage.storeCover(cover);
+    if (song.coverUrl) await storage.deleteCover(song.coverUrl);
+    if (song.songUrl) await storage.deleteSong(song.songUrl);
+
+    const songUrl = await storage.storeSong(songFile);
+    const coverUrl = await storage.storeCover(coverFile);
 
     await repository.update(songUuid, {
       coverUrl: coverUrl,
@@ -63,7 +66,7 @@ export class SongService {
       isHidden: false,
     });
 
-    return repository.findOne(songUuid);
+    return repository.findOne(songUuid, { relations: ['artists'] });
   }
 
   async update(uuid: string, body: SongUpdateBody): Promise<Song | undefined> {

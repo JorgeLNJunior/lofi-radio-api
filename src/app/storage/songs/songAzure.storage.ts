@@ -40,4 +40,30 @@ export class SongAzureStorage implements SongBaseStorage {
 
     return `https://${this.account}.blob.core.windows.net/${this.containerName}/songs/covers/${name}`;
   }
+
+  async deleteSong(fileUrl: string): Promise<void> {
+    const uuid = fileUrl.split('/').pop();
+
+    const containerClient = this.client.getContainerClient(
+      this.containerName as string,
+    );
+    const blobClient = containerClient.getBlockBlobClient(
+      `songs/audios/${uuid}`,
+    );
+
+    await blobClient.deleteIfExists({ deleteSnapshots: 'include' });
+  }
+
+  async deleteCover(fileUrl: string): Promise<void> {
+    const uuid = fileUrl.split('/').pop();
+
+    const containerClient = this.client.getContainerClient(
+      this.containerName as string,
+    );
+    const blobClient = containerClient.getBlockBlobClient(
+      `songs/covers/${uuid}`,
+    );
+
+    await blobClient.deleteIfExists({ deleteSnapshots: 'include' });
+  }
 }
