@@ -1,5 +1,6 @@
 import fs from 'fs';
 import path from 'path';
+import { v4 as uuidV4 } from 'uuid';
 
 import { SongBaseStorage } from '../../../@types/storage';
 import { InternalError } from '../../../app/error/internal.error';
@@ -8,7 +9,7 @@ import { warnLogger } from '../../../config/logger';
 export class SongLocalStorage implements SongBaseStorage {
   storeSong(song: Express.Multer.File): Promise<string> {
     const extension = song.originalname.split('.').pop();
-    const name = `${Date.now()}.${extension}`;
+    const name = `${uuidV4()}.${extension}`;
 
     const filePath = path.resolve('public') + `/songs/files/${name}`;
 
@@ -23,7 +24,7 @@ export class SongLocalStorage implements SongBaseStorage {
   }
   storeCover(cover: Express.Multer.File): Promise<string> {
     const extension = cover.originalname.split('.').pop();
-    const name = `${Date.now()}.${extension}`;
+    const name = `${uuidV4()}.${extension}`;
 
     const filePath = path.resolve('public') + `/songs/covers/${name}`;
 

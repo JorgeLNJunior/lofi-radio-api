@@ -1,5 +1,6 @@
 import fs from 'fs';
 import path from 'path';
+import { v4 as uuidV4 } from 'uuid';
 
 import { ArtistBaseStorage } from '../../../@types/storage';
 import { warnLogger } from '../../../config/logger';
@@ -8,7 +9,7 @@ import { InternalError } from '../../error/internal.error';
 export class ArtistLocalStorage implements ArtistBaseStorage {
   storePhoto(photo: Express.Multer.File): Promise<string> {
     const extension = photo.originalname.split('.').pop();
-    const name = `${Date.now()}.${extension}`;
+    const name = `${uuidV4()}.${extension}`;
     const HOST = process.env.HOST;
 
     return new Promise((resolve, reject) => {

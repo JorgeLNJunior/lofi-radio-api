@@ -1,4 +1,5 @@
 import { BlobServiceClient } from '@azure/storage-blob';
+import { v4 as uuidV4 } from 'uuid';
 
 import { ArtistBaseStorage } from '../../../@types/storage';
 
@@ -12,7 +13,7 @@ export class ArtistAzureStorage implements ArtistBaseStorage {
 
   async storePhoto(photo: Express.Multer.File): Promise<string> {
     const extension = photo.originalname.split('.').pop();
-    const name = `${Date.now()}.${extension}`;
+    const name = `${uuidV4()}.${extension}`;
 
     const containerClient = this.client.getContainerClient(
       this.containerName as string,

@@ -1,5 +1,6 @@
 import { BlobServiceClient } from '@azure/storage-blob';
 import { SongBaseStorage } from 'src/@types/storage';
+import { v4 as uuidV4 } from 'uuid';
 
 export class SongAzureStorage implements SongBaseStorage {
   private containerName = process.env.AZURE_CONTAINER;
@@ -11,7 +12,7 @@ export class SongAzureStorage implements SongBaseStorage {
 
   async storeSong(song: Express.Multer.File): Promise<string> {
     const extension = song.originalname.split('.').pop();
-    const name = `${Date.now()}.${extension}`;
+    const name = `${uuidV4()}.${extension}`;
 
     const containerClient = this.client.getContainerClient(
       this.containerName as string,
@@ -27,7 +28,7 @@ export class SongAzureStorage implements SongBaseStorage {
 
   async storeCover(cover: Express.Multer.File): Promise<string> {
     const extension = cover.originalname.split('.').pop();
-    const name = `${Date.now()}.${extension}`;
+    const name = `${uuidV4()}.${extension}`;
 
     const containerClient = this.client.getContainerClient(
       this.containerName as string,
