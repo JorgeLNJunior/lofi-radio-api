@@ -1,0 +1,45 @@
+version: "3"
+
+services:
+  mysql:
+    container_name: mysql-container
+    image: mysql:8
+    restart: always
+    volumes:
+      - ./data:/data/db
+    ports:
+      - "${DB_PORT}:${DB_PORT}"
+    environment:
+      MYSQL_ROOT_PASSWORD: ${DB_PASS}
+      MYSQL_DATABASE: ${DB_NAME}
+    env_file:
+      - .env
+
+  api:
+    container_name: lofi-radio-api
+    build: .
+    image: ts-project
+    restart: always
+    command: [
+      "./wait-for-it.sh",
+      "mysql-container:$DB_PORT",
+      "--timeout=300",
+      "--",
+      "npm",
+      "start"
+    ]
+    volumes:
+      - ./dist:/usr/app/lofi-radio-api/dist
+      - ./ormconfig.js:/usr/app/lofi-radio-api/ormconfig.js
+      - ./public:/usr/app/lofi-radio-api/public
+    ports:
+      - "${PORT}:${PORT}"
+    links:
+      - mysql
+    depends_on:
+      - mysql
+    environment:
+      DB_HOST: mysql-container
+      WAIT_HOSTS: mysql-container:${DB_PORT}
+    env_file:
+      - .env

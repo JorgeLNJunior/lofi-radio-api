@@ -17,7 +17,7 @@ module.exports = {
   migrationsTableName: 'typeorm_migrations',
   migrations: [
     process.env.NODE_ENV === 'production'
-      ? 'dist/src/database/migration/**/*.js'
+      ? 'dist/database/migration/**/*.js'
       : 'src/database/migration/**/*.ts',
   ],
   migrationsRun: process.env.NODE_ENV === 'production' ? true : false,

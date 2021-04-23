@@ -14,7 +14,12 @@ import { httpLogger } from '../config/logger';
 import router from '../router';
 
 config({ path: process.env.NODE_ENV === 'test' ? '.env.test' : '.env' });
-const swaggerDoc = YML.load(resolve('src/config/swagger.yml'));
+
+const swaggerDevPath = resolve('src/config/swagger.yml');
+const swaggerProdPath = resolve('dist/config/swagger.yml');
+const swaggerDoc = YML.load(
+  process.env.NODE_ENV === 'production' ? swaggerProdPath : swaggerDevPath,
+);
 
 const app = express();
 
