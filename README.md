@@ -20,7 +20,7 @@ Simples aplicação de streaming de Lo-Fi Hip-Hop.
 
 <div align="center">
 
-[**API »**](https://api-lofi-radio.herokuapp.com/)
+[**API »**](https://api-lofi-radio.herokuapp.com/) | [**Trello »**](https://trello.com/b/QZwOI6uT/lo-fi-radio)
 
 </div>
 
