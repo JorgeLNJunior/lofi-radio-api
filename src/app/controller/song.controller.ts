@@ -64,6 +64,8 @@ export class SongController {
       const files = req.files as MulterFields;
       const { uuid } = req.params;
 
+      if (!files) throw new BadRequestError(['"song" and "cover" is required']);
+
       const song = await songService.upload(uuid, files);
 
       return res.json({

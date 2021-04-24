@@ -75,6 +75,18 @@ describe('Songs (e2e)', () => {
     expect(body).toHaveProperty('song');
   });
 
+  test('/songs (POST) should return an error if file or cover is not provided', async () => {
+    const artist = await ArtistFactory.aArtist().persist();
+    const { uuid } = await SongFactory.aSong().withArtist(artist).persist();
+
+    const { status, body } = await request(app)
+      .post(`/songs/${uuid}/upload`)
+      .set('Authorization', `Bearer ${token}`);
+
+    expect(status).toBe(400);
+    expect(body).toHaveProperty('errors');
+  });
+
   test('/songs (PATCH) should update a song', async () => {
     const artist = await ArtistFactory.aArtist().persist();
     const { uuid } = await SongFactory.aSong().withArtist(artist).persist();
@@ -97,6 +109,20 @@ describe('Songs (e2e)', () => {
       .patch(`/songs/${uuid}`)
       .set('Authorization', `Bearer ${token}`)
       .send(dataToUpdate);
+
+    expect(status).toBe(400);
+    expect(body).toHaveProperty('errors');
+  });
+
+  test('/songs (PATCH) should update a song if the title is not a string', async () => {
+    const artist = await ArtistFactory.aArtist().persist();
+    const { uuid } = await SongFactory.aSong().withArtist(artist).persist();
+    const dataToUpdate = SongFactory.aSong().build();
+
+    const { status, body } = await request(app)
+      .patch(`/songs/${uuid}`)
+      .set('Authorization', `Bearer ${token}`)
+      .send({ title: 123, artistsUuids: dataToUpdate.artistsUuids });
 
     expect(status).toBe(400);
     expect(body).toHaveProperty('errors');

@@ -46,6 +46,17 @@ describe('Artists (e2e)', () => {
     expect(body).toHaveProperty('artist');
   });
 
+  test('/artists (POST) should return and error if artist photo is not provided', async () => {
+    const { uuid } = await ArtistFactory.aArtist().persist();
+
+    const { status, body } = await request(app)
+      .post(`/artists/${uuid}/upload`)
+      .set('Authorization', `Bearer ${token}`);
+
+    expect(status).toBe(400);
+    expect(body).toHaveProperty('errors');
+  });
+
   test('/artists (POST) should not register a artist if name is undefined', async () => {
     const artist = ArtistFactory.aArtist().withoutName().build();
 
@@ -133,6 +144,18 @@ describe('Artists (e2e)', () => {
       .send(dataToUpdate);
 
     expect(status).toBe(400);
+    expect(body).toHaveProperty('errors');
+  });
+
+  test('/artists (POST) should not register an artist if token is invalid', async () => {
+    const artist = ArtistFactory.aArtist().build();
+
+    const { status, body } = await request(app)
+      .post('/artists')
+      .set('Authorization', 'Bearer invalid-token')
+      .send(artist);
+
+    expect(status).toBe(401);
     expect(body).toHaveProperty('errors');
   });
 

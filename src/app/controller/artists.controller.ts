@@ -61,6 +61,7 @@ export class ArtistController {
     const { uuid } = req.params;
 
     try {
+      if (!photo) throw new BadRequestError(['"photo" is required']);
       const artist = await artistsService.uploadPhoto(photo, uuid);
 
       return res.json({
