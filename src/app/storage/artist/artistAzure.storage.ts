@@ -1,4 +1,5 @@
 import { BlobServiceClient } from '@azure/storage-blob';
+import { v4 as uuidV4 } from 'uuid';
 
 import { ArtistBaseStorage } from '../../../@types/storage';
 
@@ -12,17 +13,30 @@ export class ArtistAzureStorage implements ArtistBaseStorage {
 
   async storePhoto(photo: Express.Multer.File): Promise<string> {
     const extension = photo.originalname.split('.').pop();
-    const name = `${Date.now()}.${extension}`;
+    const name = `${uuidV4()}.${extension}`;
 
     const containerClient = this.client.getContainerClient(
       this.containerName as string,
     );
     const blobClient = containerClient.getBlockBlobClient(
-      `/artists/photo/${name}`,
+      `artists/photo/${name}`,
     );
 
     await blobClient.uploadData(photo.buffer);
 
     return `https://${this.account}.blob.core.windows.net/${this.containerName}/artists/photo/${name}`;
+  }
+
+  async delete(fileUrl: string): Promise<void> {
+    const uuid = fileUrl.split('/').pop();
+
+    const containerClient = this.client.getContainerClient(
+      this.containerName as string,
+    );
+    const blobClient = containerClient.getBlockBlobClient(
+      `artists/photo/${uuid}`,
+    );
+
+    await blobClient.deleteIfExists({ deleteSnapshots: 'include' });
   }
 }

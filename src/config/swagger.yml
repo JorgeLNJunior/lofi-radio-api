@@ -139,6 +139,48 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/artist-upload-response"
+        "400":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/bad-request-error"
+        "401":
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/unauthorized-error"
+        "429":
+          $ref: "#/components/responses/too-many-requests"
+
+  /artists/{uuid}:
+    patch:
+      summary: Atualizar dados
+      description: Atualiza os dados de um artista
+      tags:
+        - "Artistas"
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: uuid
+          in: path
+          required: true
+          schema:
+            type: string
+            example: 062b0499-2eaa-4066-8739-10a0f953b8e7
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/artist-update-body"
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/artist-register-response"
         "401":
           description: Unauthorized
           content:
@@ -197,7 +239,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref:  "#/components/schemas/artist-register-response"
+                $ref:  "#/components/schemas/song-register-response"
         '400':
           description: Bad Request
           content:
@@ -241,7 +283,55 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/songs-register-response"
+                $ref: "#/components/schemas/song-register-response"
+        '400':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/bad-request-error"
+        "401":
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/unauthorized-error"
+        "429":
+          $ref: "#/components/responses/too-many-requests"
+
+  /songs/{uuid}:
+    patch:
+      tags:
+        - "Músicas"
+      summary: Atualiza dados
+      description: Atualiza os dados de uma música
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: uuid
+          in: path
+          required: true
+          schema:
+            type: string
+            example: 062b0499-2eaa-4066-8739-10a0f953b8e7
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/song-update-body"
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/song-register-response"
+        '400':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/bad-request-error"
         "401":
           description: Unauthorized
           content:
@@ -302,6 +392,48 @@ paths:
                 $ref: "#/components/schemas/playlist-register-response"
         '400':
           description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/bad-request-error"
+        "401":
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/unauthorized-error"
+        "429":
+          $ref: "#/components/responses/too-many-requests"
+
+  /playlists/{uuid}:
+    patch:
+      summary: Atualizar dados
+      description: Atualizar os dados de uma playlist
+      tags:
+        - "Playlists"
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: uuid
+          in: path
+          required: true
+          schema:
+            type: string
+            example: 062b0499-2eaa-4066-8739-10a0f953b8e7
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/artist-update-body"
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/playlist-register-response"
+        "400":
+          description: OK
           content:
             application/json:
               schema:
@@ -501,6 +633,32 @@ components:
                   type: string
                   example: 2021-02-10T20:34:19.000Z
 
+    artist-update-body:
+      type: object
+      properties:
+        name:
+          type: string
+          example: Kudasaibeats
+          description: Nome do artista. Deve ser único.
+        spotifyUrl:
+          type: string
+          example: https://open.spotify.com/artist/3VcaBezSFVJHqylrhaYun2
+          description: Link direto para a página do artista no Spotify.
+            A URL deve iniciar com "http://" ou "https://", "www" não é obrigatório.
+            Também deve seguir o padrão de URL do Spotify (open.spotify.com/artist/).
+        youtubeUrl:
+          type: string
+          example: https://www.youtube.com/channel/UCumJMf6sc_oiLpIElQWUiOQ
+          description: Link direto para o canal no YouTube do artista.
+            A URL deve iniciar com "http://" ou "https://", "www" não é obrigatório.
+            Também deve seguir o padrão de URL do YouTube (youtube.com/channel/).
+        soundcloudUrl:
+          type: string
+          example: https://soundcloud.com/kudasaibeats
+          description: Link direto para a página do artista no SoundCloud.
+            A URL deve iniciar com "http://" ou "https://", "www" não é obrigatório.
+            Também deve seguir o padrão de URL do SoundCloud (soundcloud.com/).
+
     songs-response:
       type: object
       properties:
@@ -578,7 +736,7 @@ components:
             type: string
             example: 062b0499-2eaa-4066-8739-10a0f953b8e7
 
-    songs-register-response:
+    song-register-response:
       type: object
       properties:
         status:
@@ -637,6 +795,13 @@ components:
                   updatedAt:
                     type: string
                     example: 2021-02-10T20:34:19.000Z
+
+    song-update-body:
+      type: object
+      properties:
+        title:
+          type: string
+          example: call me
 
     song-upload-body:
       required:
@@ -751,73 +916,89 @@ components:
     playlist-register-response:
       type: object
       properties:
-        uuid:
+        status:
           type: string
-          example: 062b0499-2eaa-4066-8739-10a0f953b8e7
+          default: 200
+        playlist:
+          type: object
+          properties:
+            uuid:
+              type: string
+              example: 062b0499-2eaa-4066-8739-10a0f953b8e7
+            title:
+              type: string
+              example: 1 am study session
+            originalUrl:
+              type: string
+              example: http://www.youtube.com/UC5E_qyrsVIkAmvVzGUae3OA
+            createdAt:
+              type: string
+              example: 2021-02-10T20:34:19.000Z
+            updatedAt:
+              type: string
+              example: 2021-02-10T20:34:19.000Z
+            songs:
+              type: array
+              items:
+                type: object
+                properties:
+                  uuid:
+                    type: string
+                    example: 202e4853-0fba-449c-8529-6518a68eaa40
+                  title:
+                    type: string
+                    example: call me
+                  songUrl:
+                    type: string
+                    example: https://lofiradio.blob.core.windows.net/files/songs/audio/1613485744855.mp3
+                  coverUrl:
+                    type: string
+                    example: https://lofiradio.blob.core.windows.net/files/songs/covers/1613485748199.jpg
+                  createdAt:
+                    type: string
+                    example: 2021-02-10T20:34:19.000Z
+                  updatedAt:
+                    type: string
+                    example: 2021-02-10T20:34:19.000Z
+                  artists:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        uuid:
+                          type: string
+                          example: 062b0499-2eaa-4066-8739-10a0f953b8e7
+                        name:
+                          type: string
+                          example: 90sFlav
+                        spotifyUrl:
+                          type: string
+                          example: https://open.spotify.com/artist/6OOxsmeDk34xk6Ok3Ap95C
+                        youtubeUrl:
+                          type: string
+                          example: https://www.youtube.com/channel/UC5E_qyrsVIkAmvVzGUae3OA
+                        soundcloudUrl:
+                          type: string
+                          example: https://soundcloud.com/90sflav
+                        photoUrl:
+                          type: string
+                          example: https://lofiradio.blob.core.windows.net/files/artists/photos/1613485748199.jpg
+                        createdAt:
+                          type: string
+                          example: 2021-02-10T20:34:19.000Z
+                        updatedAt:
+                          type: string
+                          example: 2021-02-10T20:34:19.000Z
+
+    playlist-update-body:
+      type: object
+      properties:
         title:
           type: string
           example: 1 am study session
         originalUrl:
           type: string
           example: http://www.youtube.com/UC5E_qyrsVIkAmvVzGUae3OA
-        createdAt:
-          type: string
-          example: 2021-02-10T20:34:19.000Z
-        updatedAt:
-          type: string
-          example: 2021-02-10T20:34:19.000Z
-        songs:
-          type: array
-          items:
-            type: object
-            properties:
-              uuid:
-                type: string
-                example: 202e4853-0fba-449c-8529-6518a68eaa40
-              title:
-                type: string
-                example: call me
-              songUrl:
-                type: string
-                example: https://lofiradio.blob.core.windows.net/files/songs/audio/1613485744855.mp3
-              coverUrl:
-                type: string
-                example: https://lofiradio.blob.core.windows.net/files/songs/covers/1613485748199.jpg
-              createdAt:
-                type: string
-                example: 2021-02-10T20:34:19.000Z
-              updatedAt:
-                type: string
-                example: 2021-02-10T20:34:19.000Z
-              artists:
-                type: array
-                items:
-                  type: object
-                  properties:
-                    uuid:
-                      type: string
-                      example: 062b0499-2eaa-4066-8739-10a0f953b8e7
-                    name:
-                      type: string
-                      example: 90sFlav
-                    spotifyUrl:
-                      type: string
-                      example: https://open.spotify.com/artist/6OOxsmeDk34xk6Ok3Ap95C
-                    youtubeUrl:
-                      type: string
-                      example: https://www.youtube.com/channel/UC5E_qyrsVIkAmvVzGUae3OA
-                    soundcloudUrl:
-                      type: string
-                      example: https://soundcloud.com/90sflav
-                    photoUrl:
-                      type: string
-                      example: https://lofiradio.blob.core.windows.net/files/artists/photos/1613485748199.jpg
-                    createdAt:
-                      type: string
-                      example: 2021-02-10T20:34:19.000Z
-                    updatedAt:
-                      type: string
-                      example: 2021-02-10T20:34:19.000Z
 
     bad-request-error:
       type: object

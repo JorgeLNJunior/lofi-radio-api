@@ -1,7 +1,7 @@
-import { PlaylistBody } from 'src/@types/body';
-import { PlaylistQuery } from 'src/@types/query';
 import { getRepository } from 'typeorm';
 
+import { PlaylistBody, PlaylistUpdateBody } from '../../@types/body';
+import { PlaylistQuery } from '../../@types/query';
 import { Playlist } from '../entity/playlist.entity';
 import { Song } from '../entity/song.entity';
 import { BadRequestError } from '../error/badRequest.error';
@@ -31,7 +31,7 @@ export class PlaylistService {
     }
 
     if (songs.length < body.songsUuids.length) {
-      throw new BadRequestError(['one or more song do not exist']);
+      throw new BadRequestError(['one or more songs where not found']);
     }
 
     const playlist = playlistRepository.create({
@@ -45,5 +45,19 @@ export class PlaylistService {
     return playlistRepository.findOne(result.uuid, {
       relations: ['songs', 'songs.artists'],
     });
+  }
+
+  async update(
+    uuid: string,
+    body: PlaylistUpdateBody,
+  ): Promise<Playlist | undefined> {
+    const repository = getRepository(Playlist);
+
+    const isValidPlaylist = await repository.findOne(uuid);
+    if (!isValidPlaylist) throw new BadRequestError(['playlist not found']);
+
+    await repository.update({ uuid: uuid }, body);
+
+    return repository.findOne(uuid, { relations: ['songs', 'songs.artists'] });
   }
 }

@@ -28,6 +28,8 @@ router.post(
   artistsController.uploadPhoto,
 );
 
+router.patch('/artists/:uuid', verifyToken, artistsController.update);
+
 // songs
 router.get('/songs', songsController.find);
 
@@ -43,9 +45,13 @@ router.post(
   songsController.upload,
 );
 
+router.patch('/songs/:uuid', verifyToken, songsController.update);
+
 // playlists
 router.get('/playlists/', playlistsController.find);
 
 router.post('/playlists', verifyToken, playlistsController.create);
+
+router.patch('/playlists/:uuid', verifyToken, playlistsController.update);
 
 export default router;

@@ -23,7 +23,6 @@ const server = app.listen(port, async () => {
   } catch (error) {
     ConsoleMessage.appStartError();
     console.log(error);
-    console.log(typeof error);
     server.close();
   }
 

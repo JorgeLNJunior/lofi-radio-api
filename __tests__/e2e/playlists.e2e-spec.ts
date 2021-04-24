@@ -67,6 +67,72 @@ describe('Playlists (e2e)', () => {
     expect(body).toHaveProperty('errors');
   });
 
+  test('/artists (POST) should not register a playlist with invalid song uuid', async () => {
+    const playlist = PlaylistFactory.aPlaylist().withSongUuid('123').build();
+
+    const { status, body } = await request(app)
+      .post('/playlists')
+      .set('Authorization', `Bearer ${token}`)
+      .send(playlist);
+
+    expect(status).toBe(400);
+    expect(body).toHaveProperty('errors');
+  });
+
+  test('/artists (PATCH) should update a playlist', async () => {
+    const artist = await ArtistFactory.aArtist().persist();
+    const song = await SongFactory.aSong().withArtist(artist).persist();
+    const { uuid } = await PlaylistFactory.aPlaylist().withSong(song).persist();
+
+    const dataToUpdate = PlaylistFactory.aPlaylist()
+      .withoutSongsUuids()
+      .build();
+
+    const { status, body } = await request(app)
+      .patch(`/playlists/${uuid}`)
+      .set('Authorization', `Bearer ${token}`)
+      .send(dataToUpdate);
+
+    expect(status).toBe(200);
+    expect(body.playlist.title).toBe(dataToUpdate.title);
+    expect(body.playlist.originalUrl).toBe(dataToUpdate.originalUrl);
+  });
+
+  test('/artists (PATCH) should return 400 if playlist was not found', async () => {
+    const uuid = 'invalid-uuid';
+
+    const dataToUpdate = PlaylistFactory.aPlaylist()
+      .withoutSongsUuids()
+      .build();
+
+    const { status, body } = await request(app)
+      .patch(`/playlists/${uuid}`)
+      .set('Authorization', `Bearer ${token}`)
+      .send(dataToUpdate);
+
+    expect(status).toBe(400);
+    expect(body).toHaveProperty('errors');
+  });
+
+  test('/artists (PATCH) should not update a playlist with title length less then 3', async () => {
+    const artist = await ArtistFactory.aArtist().persist();
+    const song = await SongFactory.aSong().withArtist(artist).persist();
+    const { uuid } = await PlaylistFactory.aPlaylist().withSong(song).persist();
+
+    const dataToUpdate = PlaylistFactory.aPlaylist()
+      .withoutSongsUuids()
+      .withoutInvalidTitle()
+      .build();
+
+    const { status, body } = await request(app)
+      .patch(`/playlists/${uuid}`)
+      .set('Authorization', `Bearer ${token}`)
+      .send(dataToUpdate);
+
+    expect(status).toBe(400);
+    expect(body).toHaveProperty('errors');
+  });
+
   afterAll(async () => {
     await finishConnection(connection);
   });

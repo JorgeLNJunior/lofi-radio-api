@@ -1,9 +1,10 @@
 import { NextFunction, Request, Response } from 'express';
-import { ArtistQuery } from 'src/@types/query';
 
+import { ArtistQuery } from '../../@types/query';
 import { BadRequestError } from '../error/badRequest.error';
 import { ArtistsService } from '../service/artists.service';
 import { CreateArtistValidator } from '../validator/artists/create.validator';
+import { UpdateArtistValidator } from '../validator/artists/update.validator';
 
 export class ArtistController {
   async get(
@@ -60,9 +61,35 @@ export class ArtistController {
     const { uuid } = req.params;
 
     try {
+      if (!photo) throw new BadRequestError(['"photo" is required']);
       const artist = await artistsService.uploadPhoto(photo, uuid);
 
       return res.json({
+        status: 200,
+        artist: artist,
+      });
+    } catch (error) {
+      next(error);
+    }
+  }
+
+  async update(
+    req: Request,
+    res: Response,
+    next: NextFunction,
+  ): Promise<Response | undefined> {
+    const body = req.body;
+    const { uuid } = req.params;
+    const artistsService = new ArtistsService();
+    const validator = new UpdateArtistValidator();
+
+    const { error: validationError, value } = validator.validate(body);
+
+    try {
+      if (validationError) throw new BadRequestError([validationError.message]);
+      const artist = await artistsService.update(uuid, value);
+
+      return res.status(200).json({
         status: 200,
         artist: artist,
       });

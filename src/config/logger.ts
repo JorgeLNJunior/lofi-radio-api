@@ -20,3 +20,8 @@ export const errorLogger = winston.createLogger({
   transports: new winston.transports.File({ filename: 'logs/error/logs.json' }),
   format: winston.format.json(),
 });
+
+export const warnLogger = winston.createLogger({
+  transports: new winston.transports.File({ filename: 'logs/warn/logs.json' }),
+  format: winston.format.json(),
+});

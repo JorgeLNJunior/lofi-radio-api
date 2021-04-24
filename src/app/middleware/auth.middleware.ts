@@ -14,10 +14,10 @@ export const verifyToken = (
     jwt.verify(token);
     next();
   } catch (error) {
-    return res.status(error.status || '500').json({
-      status: error.status || 500,
+    return res.status(error.status || '401').json({
+      status: error.status || 401,
       message: error.message,
-      errors: error.errors || [],
+      errors: error.errors || ['invalid token'],
     });
   }
 };

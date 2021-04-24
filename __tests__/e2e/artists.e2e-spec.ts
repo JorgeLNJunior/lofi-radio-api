@@ -22,7 +22,7 @@ describe('Artists (e2e)', () => {
     expect(body).toHaveProperty('artists');
   });
 
-  test('/artists (POST) should register a artist', async () => {
+  test('/artists (POST) should register an artist', async () => {
     const artist = ArtistFactory.aArtist().build();
 
     const { status, body } = await request(app)
@@ -34,7 +34,7 @@ describe('Artists (e2e)', () => {
     expect(body).toHaveProperty('artist');
   });
 
-  test('/artists (POST) should update artist photo', async () => {
+  test('/artists (POST) should update the artist photo', async () => {
     const { uuid } = await ArtistFactory.aArtist().persist();
 
     const { status, body } = await request(app)
@@ -44,6 +44,17 @@ describe('Artists (e2e)', () => {
 
     expect(status).toBe(200);
     expect(body).toHaveProperty('artist');
+  });
+
+  test('/artists (POST) should return and error if artist photo is not provided', async () => {
+    const { uuid } = await ArtistFactory.aArtist().persist();
+
+    const { status, body } = await request(app)
+      .post(`/artists/${uuid}/upload`)
+      .set('Authorization', `Bearer ${token}`);
+
+    expect(status).toBe(400);
+    expect(body).toHaveProperty('errors');
   });
 
   test('/artists (POST) should not register a artist if name is undefined', async () => {
@@ -91,6 +102,60 @@ describe('Artists (e2e)', () => {
       .send(artist);
 
     expect(status).toBe(400);
+    expect(body).toHaveProperty('errors');
+  });
+
+  test('/artists (PATCH) should update artist data', async () => {
+    const dataToUpdate = ArtistFactory.aArtist().build();
+    const { uuid } = await ArtistFactory.aArtist().persist();
+
+    const { status, body } = await request(app)
+      .patch(`/artists/${uuid}`)
+      .set('Authorization', `Bearer ${token}`)
+      .send(dataToUpdate);
+
+    expect(status).toBe(200);
+    expect(body.artist.name).toBe(dataToUpdate.name);
+    expect(body.artist.soundcloudUrl).toBe(dataToUpdate.soundcloudUrl);
+    expect(body.artist.spotifyUrl).toBe(dataToUpdate.spotifyUrl);
+    expect(body.artist.youtubeUrl).toBe(dataToUpdate.youtubeUrl);
+  });
+
+  test('/artists (PATCH) should return 400 if the artist was not found', async () => {
+    const dataToUpdate = ArtistFactory.aArtist().build();
+    const uuid = 'invalid-uuid';
+
+    const { status, body } = await request(app)
+      .patch(`/artists/${uuid}`)
+      .set('Authorization', `Bearer ${token}`)
+      .send(dataToUpdate);
+
+    expect(status).toBe(400);
+    expect(body).toHaveProperty('errors');
+  });
+
+  test('/artists (PATCH) should not update an artist with invalid spotify url', async () => {
+    const dataToUpdate = ArtistFactory.aArtist().withInvalidSpotify().build();
+    const { uuid } = await ArtistFactory.aArtist().persist();
+
+    const { status, body } = await request(app)
+      .patch(`/artists/${uuid}`)
+      .set('Authorization', `Bearer ${token}`)
+      .send(dataToUpdate);
+
+    expect(status).toBe(400);
+    expect(body).toHaveProperty('errors');
+  });
+
+  test('/artists (POST) should not register an artist if token is invalid', async () => {
+    const artist = ArtistFactory.aArtist().build();
+
+    const { status, body } = await request(app)
+      .post('/artists')
+      .set('Authorization', 'Bearer invalid-token')
+      .send(artist);
+
+    expect(status).toBe(401);
     expect(body).toHaveProperty('errors');
   });
 

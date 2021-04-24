@@ -28,13 +28,25 @@ export class ArtistsService {
     const storage = new ArtistStorageFactory().create();
     const repository = getRepository(Artist);
 
-    const url = await storage.storePhoto(photo);
-
     let artist = await repository.findOne(uuid);
     if (!artist) throw new BadRequestError(['artist not found']);
+
+    if (artist.photoUrl) await storage.delete(artist.photoUrl);
+    const url = await storage.storePhoto(photo);
 
     await repository.update(uuid, { photoUrl: url, isHidden: false });
     artist = await repository.findOne(uuid);
     return artist as Artist;
+  }
+
+  async update(uuid: string, body: ArtistBody): Promise<Artist | undefined> {
+    const repository = getRepository(Artist);
+
+    const isValidArtist = await repository.findOne(uuid);
+    if (!isValidArtist) throw new BadRequestError(['artist not found']);
+
+    await repository.update({ uuid: uuid }, body);
+
+    return repository.findOne(uuid);
   }
 }
