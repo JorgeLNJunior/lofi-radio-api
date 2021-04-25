@@ -27,7 +27,7 @@ paths:
           application/json:
             schema:
               $ref:  "#/components/schemas/admin-credentials"
-      summary: Token de autorização
+      summary: Autorização
       description: Obtem o token de autorização para as rotas http POST.
       responses:
         '200':
@@ -47,7 +47,7 @@ paths:
 
   /artists:
     get:
-      summary: Retorna artistas
+      summary: Listar
       description: Returna uma lista com no máximo 20 artistas criados. Não retorna
         artistas que não tiveram sua foto enviada.
       tags:
@@ -76,7 +76,7 @@ paths:
           $ref: "#/components/responses/too-many-requests"
 
     post:
-      summary: Registra um novo artista
+      summary: Registrar
       description: Registra um novo artista e retorna seus dados.
       tags:
         - "Artistas"
@@ -112,7 +112,7 @@ paths:
 
   /artists/{uuid}/upload:
     post:
-      summary: Upload de foto
+      summary: Upload
       description: Realiza o upload da foto do artista. Após enviado o artista terá
         a propriedade "isHidden" definida como "false", então poderá ser encontrado
         na rota http GET.
@@ -156,7 +156,7 @@ paths:
 
   /artists/{uuid}:
     patch:
-      summary: Atualizar dados
+      summary: Atualizar
       description: Atualiza os dados de um artista
       tags:
         - "Artistas"
@@ -181,6 +181,48 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/artist-register-response"
+        "400":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/bad-request-error"
+        "401":
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/unauthorized-error"
+        "429":
+          $ref: "#/components/responses/too-many-requests"
+
+    delete:
+      summary: Deletar
+      description: Deleta um artista da base de dados
+      tags:
+        - "Artistas"
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: uuid
+          in: path
+          required: true
+          schema:
+            type: string
+            example: 062b0499-2eaa-4066-8739-10a0f953b8e7
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/delete-response"
+        "400":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/bad-request-error"
         "401":
           description: Unauthorized
           content:
@@ -192,7 +234,7 @@ paths:
 
   /songs:
     get:
-      summary: Retorna músicas
+      summary: Listar
       description: Returna uma lista com 20 músicas criadas. Não retorna
         músicas que não tiveram seu arquivo de aúdio e capa enviados.
       tags:
@@ -221,7 +263,7 @@ paths:
           $ref: "#/components/responses/too-many-requests"
 
     post:
-      summary: Registra uma nova música
+      summary: Registrar
       description: Registra uma nova música e retorna seus dados
       tags:
         - "Músicas"
@@ -259,7 +301,7 @@ paths:
     post:
       tags:
         - "Músicas"
-      summary: Upload dos arquivos da música
+      summary: Upload
       description: Realiza o upload do arquivo de aúdio e capa do album/música.
         Após enviada a música terá a propriedade "isHidden" definida como "false",
         então poderá ser encontrada na rota http GET.
@@ -303,7 +345,7 @@ paths:
     patch:
       tags:
         - "Músicas"
-      summary: Atualiza dados
+      summary: Atualizar
       description: Atualiza os dados de uma música
       security:
         - bearerAuth: []
@@ -341,9 +383,45 @@ paths:
         "429":
           $ref: "#/components/responses/too-many-requests"
 
+    delete:
+      tags:
+        - "Músicas"
+      summary: Deletar
+      description: Deleta uma música da base de dados
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: uuid
+          in: path
+          required: true
+          schema:
+            type: string
+            example: 062b0499-2eaa-4066-8739-10a0f953b8e7
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/delete-response"
+        '400':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/bad-request-error"
+        "401":
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/unauthorized-error"
+        "429":
+          $ref: "#/components/responses/too-many-requests"
+
   /playlists:
     get:
-      summary: Retorna playlists
+      summary: Listar
       description: Returna uma lista com 20 playlists criadas.
       tags:
         - "Playlists"
@@ -371,7 +449,7 @@ paths:
           $ref: "#/components/responses/too-many-requests"
 
     post:
-      summary: Registra uma playlist
+      summary: Registrar
       description: Registra uma nova playlist e retorna seus dados
       tags:
         - "Playlists"
@@ -407,7 +485,7 @@ paths:
 
   /playlists/{uuid}:
     patch:
-      summary: Atualizar dados
+      summary: Atualizar
       description: Atualizar os dados de uma playlist
       tags:
         - "Playlists"
@@ -432,6 +510,42 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/playlist-register-response"
+        "400":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/bad-request-error"
+        "401":
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/unauthorized-error"
+        "429":
+          $ref: "#/components/responses/too-many-requests"
+
+    delete:
+      summary: Deletar
+      description: Deleta uma playlist da base de dados
+      tags:
+        - "Playlists"
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: uuid
+          in: path
+          required: true
+          schema:
+            type: string
+            example: 062b0499-2eaa-4066-8739-10a0f953b8e7
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/delete-response"
         "400":
           description: OK
           content:
@@ -999,6 +1113,16 @@ components:
         originalUrl:
           type: string
           example: http://www.youtube.com/UC5E_qyrsVIkAmvVzGUae3OA
+
+    delete-response:
+      type: object
+      properties:
+        status:
+          type: number
+          default: 200
+        message:
+          type: string
+          example: resource deleted
 
     bad-request-error:
       type: object
