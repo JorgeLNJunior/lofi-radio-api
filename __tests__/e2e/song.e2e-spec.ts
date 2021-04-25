@@ -87,6 +87,19 @@ describe('Songs (e2e)', () => {
     expect(body).toHaveProperty('errors');
   });
 
+  test('/songs (POST) should return an error if the song was not found', async () => {
+    const uuid = '977d7887-2aa1-4b4f-b742-b9012037a3ce';
+
+    const { status, body } = await request(app)
+      .post(`/songs/${uuid}/upload`)
+      .set('Authorization', `Bearer ${token}`)
+      .attach('song', __dirname + '/files/2.mp3')
+      .attach('cover', __dirname + '/files/1.jpg');
+
+    expect(status).toBe(400);
+    expect(body).toHaveProperty('errors');
+  });
+
   test('/songs (PATCH) should update a song', async () => {
     const artist = await ArtistFactory.aArtist().persist();
     const { uuid } = await SongFactory.aSong().withArtist(artist).persist();
