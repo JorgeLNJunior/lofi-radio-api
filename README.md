@@ -44,12 +44,18 @@ Informações básicas sobre as rotas da aplicação.
 |--------|-----------------------|---------------------------------|--------------|
 | GET    | /artists              | retorna uma lista de artistas   | não          |
 | POST   | /artists              | registra um artista             | sim          |
+| PATCH  | /artists/:uuid        | atualiza artistas               | sim          |
+| DELETE | /artists/:uuid        | deleta um artistas              | sim          |
 | POST   | /artists/:uuid/upload | upload dos arquivos de artistas | sim          |
 | GET    | /songs                | retorna uma lista de músicas    | não          |
 | POST   | /songs                | registra uma música             | sim          |
+| PATCH  | /songs/:uuid          | atualiza uma música             | sim          |
+| DELETE | /songs/:uuid          | deleta uma música               | sim          |
 | POST   | /songs/:uuid/upload   | upload dos arquivos de músicas  | sim          |
 | GET    | /playlists            | retorna uma lista de playlists  | não          |
 | POST   | /playlists            | registra uma playlists          | sim          |
+| PATCH  | /playlists/:uuid      | atualiza uma playlists          | sim          |
+| DELETE | /playlists/:uuid      | deleta uma playlists            | sim          |
 | GET    | /docs                 | documentação da API             | não          |
 
 ## Tecnologias
@@ -77,7 +83,8 @@ Este projeto foi construído com as seguintes tecnologias:
   2. Instale as dependências: `npm i`
   3. Renomeie o arquivo `.env.example` para `.env`
   4. Execute as migrations com o comando `npm run typeorm migration:run`
-  5. Para iniciar a aplicação execute `npm start:dev`, para os testes execute `npm test`
+  5. Execute o comando `npm run seed:run` para popular o banco de dados
+  6. Para iniciar a aplicação execute `npm start:dev`, para os testes execute `npm test`
 
 ## Licença
 Projeto sob a licença [MIT »](https://github.com/JorgeLNJunior/lofi-radio-api/blob/master/LICENSE.md)
