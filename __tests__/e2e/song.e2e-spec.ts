@@ -128,6 +128,28 @@ describe('Songs (e2e)', () => {
     expect(body).toHaveProperty('errors');
   });
 
+  test('/songs (DELETE) should delete a song', async () => {
+    const artist = await ArtistFactory.aArtist().persist();
+    const { uuid } = await SongFactory.aSong().withArtist(artist).persist();
+
+    const { status } = await request(app)
+      .delete(`/songs/${uuid}`)
+      .set('Authorization', `Bearer ${token}`);
+
+    expect(status).toBe(200);
+  });
+
+  test('/songs (DELETE) should return and error if the song was not found', async () => {
+    const uuid = '2845c17c-a7e1-45d6-a4c4-9f693a2a3c35';
+
+    const { status, body } = await request(app)
+      .delete(`/songs/${uuid}`)
+      .set('Authorization', `Bearer ${token}`);
+
+    expect(status).toBe(400);
+    expect(body).toHaveProperty('errors');
+  });
+
   afterAll(async () => {
     await finishConnection(connection);
   });
