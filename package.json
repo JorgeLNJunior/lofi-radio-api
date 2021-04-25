@@ -17,6 +17,8 @@
     "test": "jest --passWithNoTests --runInBand",
     "test:coverage": "npm run test -- --coverage --silent",
     "typeorm": "node --require ts-node/register ./node_modules/typeorm/cli.js",
+    "seed:config": "ts-node ./node_modules/typeorm-seeding/dist/cli.js config",
+    "seed:run": "ts-node ./node_modules/typeorm-seeding/dist/cli.js seed",
     "release:major": "changelog -M && git add CHANGELOG.md && git commit -m 'chore: updated CHANGELOG.md' && npm version major && git push --tags",
     "release:minor": "changelog -m && git add CHANGELOG.md && git commit -m 'chore: updated CHANGELOG.md' && npm version minor && git push --tags",
     "release:patch": "changelog -p && git add CHANGELOG.md && git commit -m 'chore: updated CHANGELOG.md' && npm version patch && git push --tags"
@@ -86,6 +88,7 @@
     "swagger-ui-express": "^4.1.6",
     "ts-node": "^9.1.1",
     "typeorm": "^0.2.32",
+    "typeorm-seeding": "^1.6.1",
     "uninstall": "0.0.0",
     "uuid": "^8.3.2",
     "winston": "^3.3.3",
