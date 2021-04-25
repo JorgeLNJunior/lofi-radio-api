@@ -4,22 +4,22 @@ import { v4 as uuidV4 } from 'uuid';
 
 import { ArtistBaseStorage } from '../../../@types/storage';
 import { warnLogger } from '../../../config/logger';
-import { InternalError } from '../../error/internal.error';
 
 export class ArtistLocalStorage implements ArtistBaseStorage {
   storePhoto(photo: Express.Multer.File): Promise<string> {
     const extension = photo.originalname.split('.').pop();
     const name = `${uuidV4()}.${extension}`;
-    const HOST = process.env.HOST;
+    const serverHost = process.env.HOST;
 
     return new Promise((resolve, reject) => {
       fs.writeFile(
         path.resolve('public') + `/artists/photo/${name}`,
         photo.buffer,
         (error) => {
-          if (error)
-            reject(new InternalError(['local upload error: ' + error.message]));
-          resolve(`http://${HOST}/artists/photo/${name}`);
+          if (error) {
+            reject(error);
+          }
+          resolve(`http://${serverHost}/artists/photo/${name}`);
         },
       );
     });
@@ -38,8 +38,16 @@ export class ArtistLocalStorage implements ArtistBaseStorage {
       return;
     }
 
-    fs.rm(path.resolve('public') + `/artists/photo/${uuid}`, (error) => {
-      if (error) throw new InternalError(['error when delete the old photo']);
+    return new Promise((resolve) => {
+      fs.rm(path.resolve('public') + `/artists/photo/${uuid}`, (error) => {
+        if (error) {
+          warnLogger.log(
+            'warn',
+            `error when delete the artist photo with uuid - ${uuid}`,
+          );
+        }
+        resolve();
+      });
     });
   }
 }
