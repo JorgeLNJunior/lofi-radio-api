@@ -10,7 +10,7 @@ import {
 
 import { Song } from './song.entity';
 
-@Entity()
+@Entity({ name: 'artist' })
 export class Artist {
   @PrimaryGeneratedColumn('uuid')
   uuid: string;

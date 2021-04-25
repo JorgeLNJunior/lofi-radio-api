@@ -30,6 +30,8 @@ router.post(
 
 router.patch('/artists/:uuid', verifyToken, artistsController.update);
 
+router.delete('/artists/:uuid', verifyToken, artistsController.delete);
+
 // songs
 router.get('/songs', songsController.find);
 
@@ -47,11 +49,15 @@ router.post(
 
 router.patch('/songs/:uuid', verifyToken, songsController.update);
 
+router.delete('/songs/:uuid', verifyToken, songsController.delete);
+
 // playlists
 router.get('/playlists/', playlistsController.find);
 
 router.post('/playlists', verifyToken, playlistsController.create);
 
 router.patch('/playlists/:uuid', verifyToken, playlistsController.update);
+
+router.delete('/playlists/:uuid', verifyToken, playlistsController.delete);
 
 export default router;

@@ -87,6 +87,19 @@ describe('Songs (e2e)', () => {
     expect(body).toHaveProperty('errors');
   });
 
+  test('/songs (POST) should return an error if the song was not found', async () => {
+    const uuid = '977d7887-2aa1-4b4f-b742-b9012037a3ce';
+
+    const { status, body } = await request(app)
+      .post(`/songs/${uuid}/upload`)
+      .set('Authorization', `Bearer ${token}`)
+      .attach('song', __dirname + '/files/2.mp3')
+      .attach('cover', __dirname + '/files/1.jpg');
+
+    expect(status).toBe(400);
+    expect(body).toHaveProperty('errors');
+  });
+
   test('/songs (PATCH) should update a song', async () => {
     const artist = await ArtistFactory.aArtist().persist();
     const { uuid } = await SongFactory.aSong().withArtist(artist).persist();
@@ -123,6 +136,28 @@ describe('Songs (e2e)', () => {
       .patch(`/songs/${uuid}`)
       .set('Authorization', `Bearer ${token}`)
       .send({ title: 123, artistsUuids: dataToUpdate.artistsUuids });
+
+    expect(status).toBe(400);
+    expect(body).toHaveProperty('errors');
+  });
+
+  test('/songs (DELETE) should delete a song', async () => {
+    const artist = await ArtistFactory.aArtist().persist();
+    const { uuid } = await SongFactory.aSong().withArtist(artist).persist();
+
+    const { status } = await request(app)
+      .delete(`/songs/${uuid}`)
+      .set('Authorization', `Bearer ${token}`);
+
+    expect(status).toBe(200);
+  });
+
+  test('/songs (DELETE) should return and error if the song was not found', async () => {
+    const uuid = '2845c17c-a7e1-45d6-a4c4-9f693a2a3c35';
+
+    const { status, body } = await request(app)
+      .delete(`/songs/${uuid}`)
+      .set('Authorization', `Bearer ${token}`);
 
     expect(status).toBe(400);
     expect(body).toHaveProperty('errors');

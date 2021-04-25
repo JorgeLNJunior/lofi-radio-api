@@ -133,6 +133,29 @@ describe('Playlists (e2e)', () => {
     expect(body).toHaveProperty('errors');
   });
 
+  test('/artists (DELETE) should delete a playlist', async () => {
+    const artist = await ArtistFactory.aArtist().persist();
+    const song = await SongFactory.aSong().withArtist(artist).persist();
+    const { uuid } = await PlaylistFactory.aPlaylist().withSong(song).persist();
+
+    const { status } = await request(app)
+      .delete(`/playlists/${uuid}`)
+      .set('Authorization', `Bearer ${token}`);
+
+    expect(status).toBe(200);
+  });
+
+  test('/artists (DELETE) should return an error if the playlist was not found', async () => {
+    const uuid = '50efd611-f95d-4f72-91dd-99e691e5c5ed';
+
+    const { status, body } = await request(app)
+      .delete(`/playlists/${uuid}`)
+      .set('Authorization', `Bearer ${token}`);
+
+    expect(status).toBe(400);
+    expect(body).toHaveProperty('errors');
+  });
+
   afterAll(async () => {
     await finishConnection(connection);
   });

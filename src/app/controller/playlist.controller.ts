@@ -77,4 +77,24 @@ export class PlaylistController {
       next(error);
     }
   }
+
+  async delete(
+    req: Request,
+    res: Response,
+    next: NextFunction,
+  ): Promise<Response | undefined> {
+    const playlistService = new PlaylistService();
+    const { uuid } = req.params;
+
+    try {
+      await playlistService.delete(uuid);
+
+      return res.status(200).json({
+        status: 200,
+        message: 'playlist deleted',
+      });
+    } catch (error) {
+      next(error);
+    }
+  }
 }

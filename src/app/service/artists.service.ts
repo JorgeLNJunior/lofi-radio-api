@@ -49,4 +49,13 @@ export class ArtistsService {
 
     return repository.findOne(uuid);
   }
+
+  async delete(uuid: string): Promise<void> {
+    const repository = getRepository(Artist);
+
+    const artist = await repository.findOne(uuid);
+    if (!artist) throw new BadRequestError(['artist not found']);
+
+    await repository.delete({ uuid: uuid });
+  }
 }

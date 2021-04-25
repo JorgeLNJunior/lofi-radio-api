@@ -3,11 +3,11 @@ import path from 'path';
 import { v4 as uuidV4 } from 'uuid';
 
 import { SongBaseStorage } from '../../../@types/storage';
-import { InternalError } from '../../../app/error/internal.error';
 import { warnLogger } from '../../../config/logger';
 
 export class SongLocalStorage implements SongBaseStorage {
   storeSong(song: Express.Multer.File): Promise<string> {
+    const serverHost = process.env.HOST;
     const extension = song.originalname.split('.').pop();
     const name = `${uuidV4()}.${extension}`;
 
@@ -18,11 +18,13 @@ export class SongLocalStorage implements SongBaseStorage {
         if (error) {
           reject(error);
         }
-        resolve('http://localhost:3000/songs/files/' + name);
+        resolve(`http://${serverHost}/songs/files/${name}`);
       });
     });
   }
+
   storeCover(cover: Express.Multer.File): Promise<string> {
+    const serverHost = process.env.HOST;
     const extension = cover.originalname.split('.').pop();
     const name = `${uuidV4()}.${extension}`;
 
@@ -33,7 +35,7 @@ export class SongLocalStorage implements SongBaseStorage {
         if (error) {
           reject(error);
         }
-        resolve('http://localhost:3000/songs/covers/' + name);
+        resolve(`http://${serverHost}/songs/covers/${name}`);
       });
     });
   }
@@ -51,10 +53,16 @@ export class SongLocalStorage implements SongBaseStorage {
       return;
     }
 
-    fs.rm(path.resolve('public') + `/songs/files/${uuid}`, (error) => {
-      if (error) {
-        throw new InternalError(['error when delete the old song file']);
-      }
+    return new Promise((resolve) => {
+      fs.rm(path.resolve('public') + `/songs/files/${uuid}`, (error) => {
+        if (error) {
+          warnLogger.log(
+            'warn',
+            `error when delete the file song with uuid: ${uuid}`,
+          );
+        }
+        resolve();
+      });
     });
   }
 
@@ -71,10 +79,16 @@ export class SongLocalStorage implements SongBaseStorage {
       return;
     }
 
-    fs.rm(path.resolve('public') + `/songs/covers/${uuid}`, (error) => {
-      if (error) {
-        throw new InternalError(['error when delete the old song cover']);
-      }
+    return new Promise((resolve) => {
+      fs.rm(path.resolve('public') + `/songs/covers/${uuid}`, (error) => {
+        if (error) {
+          warnLogger.log(
+            'warn',
+            `error when delete the song cover with uuid: ${uuid}`,
+          );
+        }
+        resolve();
+      });
     });
   }
 }

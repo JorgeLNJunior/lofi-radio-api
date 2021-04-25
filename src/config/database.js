@@ -21,6 +21,16 @@ module.exports = {
       : 'src/database/migration/**/*.ts',
   ],
   migrationsRun: process.env.NODE_ENV === 'production' ? true : false,
+  seeds: [
+    process.env.NODE_ENV === 'production'
+      ? 'dist/database/seeds/**/*.js'
+      : 'src/database/seeds/**/*.ts',
+  ],
+  factories: [
+    process.env.NODE_ENV === 'production'
+      ? 'dist/database/factories/**/*.js'
+      : 'src/database/factories/**/*.ts',
+  ],
   cli: {
     entitiesDir: 'src/app/entity',
     migrationsDir: 'src/database/migration',

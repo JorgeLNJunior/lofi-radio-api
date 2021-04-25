@@ -159,6 +159,26 @@ describe('Artists (e2e)', () => {
     expect(body).toHaveProperty('errors');
   });
 
+  test('/artists (DELETE) should delete an artist', async () => {
+    const { uuid } = await ArtistFactory.aArtist().persist();
+
+    const { status } = await request(app)
+      .delete(`/artists/${uuid}`)
+      .set('Authorization', `Bearer ${token}`);
+
+    expect(status).toBe(200);
+  });
+
+  test('/artists (DELETE) should return an error if the artist was not found', async () => {
+    const uuid = '2845c17c-a7e1-45d6-a4c4-9f693a2a3c35';
+
+    const { status } = await request(app)
+      .delete(`/artists/${uuid}`)
+      .set('Authorization', `Bearer ${token}`);
+
+    expect(status).toBe(400);
+  });
+
   afterAll(async () => {
     await finishConnection(connection);
   });
