@@ -1,3 +1,38 @@
+### 1.3.0 (2021-04-25)
+
+##### Build System / Dependencies
+
+*  reconstruir o package-lock ([6da9737d](https://github.com/JorgeLNJunior/lofi-radio-api/commit/6da9737d22696a9c69edb6c777356f626e758e93))
+
+##### Chores
+
+* **dev:**  criar seeders ([4a2c50cc](https://github.com/JorgeLNJunior/lofi-radio-api/commit/4a2c50cc0f3da5ed0f6848c9a0afa077a5eca1ac))
+
+##### Documentation Changes
+
+*  atualizar a versão do projeto no swagger ([92ff06b7](https://github.com/JorgeLNJunior/lofi-radio-api/commit/92ff06b7a806fd00c97880d4065c005b6dbcd6a7))
+*  atualizar as rotas e instruções do readme ([0ba65449](https://github.com/JorgeLNJunior/lofi-radio-api/commit/0ba65449eaa9fa66cf5d2e58215871b9b6c8fa76))
+*  adicionar as rotas delete a documentação da api ([d57294b8](https://github.com/JorgeLNJunior/lofi-radio-api/commit/d57294b8e439f9608b22c3943ad3c3473e591c66))
+
+##### New Features
+
+*  criar as rotas delete ([4273190f](https://github.com/JorgeLNJunior/lofi-radio-api/commit/4273190fa040a9ffe46be5545514cf263d48b694))
+
+##### Refactors
+
+*  não retornar error quando arquivos não forem deletados ([274e1b22](https://github.com/JorgeLNJunior/lofi-radio-api/commit/274e1b227a76dcab4fd98f499796d2c99a43339a))
+*  separar os regex ([f4a84518](https://github.com/JorgeLNJunior/lofi-radio-api/commit/f4a84518fffa3830bae589b9af077e915de08b1b))
+
+##### Code Style Changes
+
+*  adicionar extensão ao arquivo do prettier ([a7887f51](https://github.com/JorgeLNJunior/lofi-radio-api/commit/a7887f510ed3de31b8b0bcc5bbf9f42bb963ab59))
+
+##### Tests
+
+*  ignorar o diretório database no coverage ([15aec906](https://github.com/JorgeLNJunior/lofi-radio-api/commit/15aec906e6cbd8daa2964e04196c76b399dd7598))
+*  criar mais testes para a rota de upload ([18082136](https://github.com/JorgeLNJunior/lofi-radio-api/commit/1808213695e05f953a2a5035be63cd032d04df85))
+*  criar os testes das rotas delete ([edd9d9c0](https://github.com/JorgeLNJunior/lofi-radio-api/commit/edd9d9c061376979d0caca7d718b66ee8bbe615d))
+
 ### 1.2.0 (2021-04-24)
 
 ##### Build System / Dependencies
