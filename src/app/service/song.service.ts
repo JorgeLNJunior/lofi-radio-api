@@ -72,11 +72,20 @@ export class SongService {
   async update(uuid: string, body: SongUpdateBody): Promise<Song | undefined> {
     const repository = getRepository(Song);
 
-    const isValidSong = await repository.findOne(uuid);
-    if (!isValidSong) throw new BadRequestError(['song not found']);
+    const song = await repository.findOne(uuid);
+    if (!song) throw new BadRequestError(['song not found']);
 
     await repository.update({ uuid: uuid }, body);
 
     return repository.findOne(uuid, { relations: ['artists'] });
+  }
+
+  async delete(uuid: string): Promise<void> {
+    const repository = getRepository(Song);
+
+    const song = await repository.findOne(uuid);
+    if (!song) throw new BadRequestError(['song not found']);
+
+    await repository.delete({ uuid: uuid });
   }
 }

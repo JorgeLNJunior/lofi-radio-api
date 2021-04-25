@@ -97,4 +97,24 @@ export class ArtistController {
       next(error);
     }
   }
+
+  async delete(
+    req: Request,
+    res: Response,
+    next: NextFunction,
+  ): Promise<Response | undefined> {
+    const { uuid } = req.params;
+    const artistsService = new ArtistsService();
+
+    try {
+      await artistsService.delete(uuid);
+
+      return res.status(200).json({
+        status: 200,
+        message: 'artist deleted',
+      });
+    } catch (error) {
+      next(error);
+    }
+  }
 }

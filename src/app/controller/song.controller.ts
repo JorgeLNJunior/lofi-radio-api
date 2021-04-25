@@ -102,4 +102,24 @@ export class SongController {
       next(error);
     }
   }
+
+  async delete(
+    req: Request,
+    res: Response,
+    next: NextFunction,
+  ): Promise<Response | undefined> {
+    const songService = new SongService();
+    const { uuid } = req.params;
+
+    try {
+      await songService.delete(uuid);
+
+      return res.status(200).json({
+        status: 200,
+        message: 'song deleted',
+      });
+    } catch (error) {
+      next(error);
+    }
+  }
 }

@@ -53,11 +53,20 @@ export class PlaylistService {
   ): Promise<Playlist | undefined> {
     const repository = getRepository(Playlist);
 
-    const isValidPlaylist = await repository.findOne(uuid);
-    if (!isValidPlaylist) throw new BadRequestError(['playlist not found']);
+    const playlist = await repository.findOne(uuid);
+    if (!playlist) throw new BadRequestError(['playlist not found']);
 
     await repository.update({ uuid: uuid }, body);
 
     return repository.findOne(uuid, { relations: ['songs', 'songs.artists'] });
+  }
+
+  async delete(uuid: string): Promise<void> {
+    const repository = getRepository(Playlist);
+
+    const playlist = await repository.findOne(uuid);
+    if (!playlist) throw new BadRequestError(['playlist not found']);
+
+    await repository.delete({ uuid: uuid });
   }
 }
