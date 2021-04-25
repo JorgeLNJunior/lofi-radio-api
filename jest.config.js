@@ -24,7 +24,7 @@ module.exports = {
     '<rootDir>/src/**/*.ts',
     '!<rootDir>/src/start/**',
     '!<rootDir>/src/config/**',
-    '!<rootDir>/src/database/migration/**',
+    '!<rootDir>/src/database/**',
     '!<rootDir>/src/@types/**',
   ],
 
