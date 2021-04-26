@@ -8,8 +8,10 @@ COPY package*.json ./
 
 RUN npm install --only=prod
 
+RUN npm install typescript
+
 RUN touch ./ormconfig.js
 
-COPY wait-for-it.sh ./
+COPY ./scripts ./scripts
 
-RUN chmod +x ./wait-for-it.sh
+RUN chmod -R +x ./scripts

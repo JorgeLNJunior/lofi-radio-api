@@ -1,3 +1,22 @@
+#### 1.3.1 (2021-04-26)
+
+##### Build System / Dependencies
+
+* **fix:**  remover dependência inexistente ([2995ae55](https://github.com/JorgeLNJunior/lofi-radio-api/commit/2995ae554bb2bd8401b8daf92aca97596d8339b0))
+
+##### Chores
+
+*  ignorar mais rotas nos logs ([8400d17d](https://github.com/JorgeLNJunior/lofi-radio-api/commit/8400d17db1a858c05289aceaa05904e82b1e5589))
+
+##### Documentation Changes
+
+*  atualizar a versão do projeto no swagger ([df3830f1](https://github.com/JorgeLNJunior/lofi-radio-api/commit/df3830f12cb6646da93b4a4e613a5b076ee3b061))
+*  remover a badge da sonarcloud ([37583853](https://github.com/JorgeLNJunior/lofi-radio-api/commit/37583853ba9a61109e040564ce033d2f119c94ba))
+
+##### Refactors
+
+* **dev:**  organizar os arquivos docker ([5278104f](https://github.com/JorgeLNJunior/lofi-radio-api/commit/5278104fba6a223dc1c8b9ca4abf15e5cdcebb35))
+
 ### 1.3.0 (2021-04-25)
 
 ##### Build System / Dependencies
