@@ -18,15 +18,14 @@ services:
   api:
     container_name: lofi-radio-api
     build: .
-    image: ts-project
+    image: lofi-radio-api
     restart: always
     command: [
-      "./wait-for-it.sh",
+      "./scripts/wait-for-it.sh",
       "mysql-container:$DB_PORT",
       "--timeout=300",
       "--",
-      "npm",
-      "start"
+      "./scripts/start.sh",
     ]
     volumes:
       - ./dist:/usr/app/lofi-radio-api/dist
