@@ -13,6 +13,8 @@ export const httpLogger = expressWinston.logger({
     '/docs/swagger-ui-standalone-preset.js',
     '/docs/swagger-ui-init.js',
     '/docs/swagger-ui-bundle.js',
+    '/docs/favicon-16x16.png',
+    '/favicon.ico',
   ],
 });
 
