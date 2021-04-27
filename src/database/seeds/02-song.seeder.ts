@@ -16,6 +16,7 @@ export class SongSeeder implements Seeder {
         artists: [artists[i] || artists[0]],
         title: Faker.lorem.word(5),
         songUrl: `http://${serverHost}/songs/files/${Faker.datatype.uuid()}`,
+        coverUrl: Faker.image.avatar(),
         isHidden: false,
       });
     }

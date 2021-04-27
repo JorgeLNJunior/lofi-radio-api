@@ -1,3 +1,9 @@
+#### 1.3.2 (2021-04-27)
+
+##### Bug Fixes
+
+* **dev:**  popular a propriedade coverUrl no song seeder ([da25b9c7](https://github.com/JorgeLNJunior/lofi-radio-api/commit/da25b9c7a09341c6f31abc2faa500f1da3896ffd))
+
 #### 1.3.1 (2021-04-26)
 
 ##### Build System / Dependencies
